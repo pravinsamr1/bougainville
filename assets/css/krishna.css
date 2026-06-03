@@ -1,0 +1,639 @@
+/* ================================================================
+   krishna.css — Page-specific styles for home-v3.html (Krishna home)
+   All classes prefixed with  kr-  to avoid conflicts with sigma_ namespace.
+   Follows the same structure & conventions as hanuman.css.
+
+   kr-  → Hero slider (4-slide fade carousel: divine love / devotion / wisdom / play)
+================================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+/* ═══════════════════════════════════════════════════════════
+   KRISHNA HERO SLIDER — kr-
+   (4 slides · fade transition · Ken Burns bg · particles · progress bar)
+═══════════════════════════════════════════════════════════ */
+
+.kr-hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 620px;
+  overflow: hidden;
+}
+
+/* ── Slides — stacked, opacity-based fade ── */
+.kr-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.55s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.kr-slide.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* ── Background per slide (Ken Burns zoom on active) ── */
+.kr-bg {
+  position: absolute;
+  inset: -6%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+/* Hero 1 — slides 1 & 2 */
+#kr-hero .kr-slide:nth-child(1) .kr-bg { background-image: url('../img/bannerr1.jpg'); }
+#kr-hero .kr-slide:nth-child(2) .kr-bg { background-image: url('../img/bannerr.jpg'); }
+#kr-hero .kr-slide:nth-child(3) .kr-bg { background-image: url('../img/bannerr2.jpg'); }
+
+/* Hero 2 — slides 3 & 4 (mid-page, shorter height) */
+#kr-hero-2 .kr-slide:nth-child(1) .kr-bg { background-image: url('../img/bannerr2.jpg'); }
+#kr-hero-2 .kr-slide:nth-child(2) .kr-bg { background-image: url('../img/bannerr1.jpg'); }
+#kr-hero-2 { height: 70vh; min-height: 520px; }
+
+.kr-slide.is-active .kr-bg {
+  animation: kr-bg-zoom 9s ease-out forwards;
+}
+@keyframes kr-bg-zoom {
+  from { transform: scale(1);    }
+  to   { transform: scale(1.08); }
+}
+
+/* ── Dark tint overlay ── */
+.kr-overlay {
+  position: absolute;
+  inset: 0;
+  /* background: rgba(0, 0, 0, 0.42); */
+  z-index: 1;
+}
+
+/* ── Radial vignette — softens edges ── */
+.kr-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 38%, rgba(0, 0, 0, 0.50) 100%);
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* ── Floating gold particles (CSS-only, same pattern as hanuman-s3) ── */
+.kr-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 3;
+}
+.kr-particles span {
+  position: absolute;
+  bottom: -10px;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: rgba(var(--mht-accent-rgb), 0.50);
+  animation: kr-rise var(--dur, 10s) ease-in var(--delay, 0s) infinite;
+}
+.kr-particles span:nth-child(1) { left:  6%; --dur: 11s; --delay: 0s;   }
+.kr-particles span:nth-child(2) { left: 14%; --dur:  8s; --delay: 1.5s; width: 2px; height: 2px; }
+.kr-particles span:nth-child(3) { left: 26%; --dur: 13s; --delay: 0.8s; }
+.kr-particles span:nth-child(4) { left: 40%; --dur:  9s; --delay: 2.2s; width: 4px; height: 4px; background: rgba(var(--mht-accent-rgb), 0.30); }
+.kr-particles span:nth-child(5) { left: 54%; --dur: 10s; --delay: 1.0s; }
+.kr-particles span:nth-child(6) { left: 68%; --dur:  7s; --delay: 3.0s; width: 2px; height: 2px; }
+.kr-particles span:nth-child(7) { left: 80%; --dur: 12s; --delay: 0.5s; }
+.kr-particles span:nth-child(8) { left: 92%; --dur:  9s; --delay: 4.0s; width: 4px; height: 4px; background: rgba(var(--mht-accent-rgb), 0.25); }
+.kr-particles span:nth-child(odd)  { --drift:  25px; }
+.kr-particles span:nth-child(even) { --drift: -18px; }
+@keyframes kr-rise {
+  0%   { bottom: -10px; opacity: 0;   transform: translateX(0);                           }
+  15%  { opacity: 1;                                                                        }
+  85%  { opacity: 0.8;                                                                      }
+  100% { bottom: 105%;  opacity: 0;   transform: translateX(var(--drift, 25px));           }
+}
+
+/* ── Content column ── */
+.kr-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 0 50px;
+  max-width: 720px;
+  width: 100%;
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateY(24px);
+  transition: opacity 0.35s ease;
+}
+.kr-slide.is-active .kr-content {
+  animation: kr-content-in 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.4s both;
+}
+@keyframes kr-content-in {
+  from { transform: translateY(24px); filter: blur(10px); opacity: 0; }
+  to   { transform: translateY(0);    filter: blur(0);    opacity: 1; }
+}
+
+/* ── Subtitle — Poppins uppercase accent ── */
+.kr-subtitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--mht-accent);
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  margin: 0 0 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.kr-subtitle i {
+  font-size: 1em;
+  color: var(--mht-accent);
+  opacity: 0.80;
+}
+
+/* ── Title — Lora h1, typographic hierarchy ── */
+.kr-title {
+  font-family: 'Lora', serif;
+  font-size: 62px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: #fff;
+  text-transform: none;
+  margin: 0 0 36px;
+}
+
+/* ── CTA button ── */
+.kr-btn {
+  display: inline-block;
+  font-family: 'Lora', serif;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 58px;
+  height: 58px;
+  padding: 0 44px;
+  color: #fff;
+  background: var(--mht-accent);
+  border: 1px solid var(--mht-accent);
+  border-radius: 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+}
+.kr-btn:hover,
+.kr-btn:focus {
+  color: var(--mht-accent);
+  background-color: transparent;
+  border-color: var(--mht-accent);
+  text-decoration: none;
+}
+
+/* ── Arrow navigation ── */
+.kr-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  width: 56px;
+  height: 56px;
+  background: rgba(0, 0, 0, 0.30);
+  border: 1px solid rgba(var(--mht-accent-rgb), 0.40);
+  border-radius: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+  padding: 0;
+}
+.kr-nav:hover { background: rgba(var(--mht-accent-rgb), 0.22); border-color: var(--mht-accent); }
+.kr-prev { left:  30px; }
+.kr-next { right: 30px; }
+.kr-prev::after,
+.kr-next::after {
+  content: '';
+  display: block;
+  width: 11px;
+  height: 11px;
+  border-color: var(--mht-accent);
+  border-style: solid;
+}
+.kr-prev::after { border-width: 0 0 2px 2px; transform: rotate(45deg) translate(2px, -2px); }
+.kr-next::after { border-width: 2px 2px 0 0; transform: rotate(45deg) translate(-2px,  2px); }
+
+/* ── Dot navigation ── */
+.kr-dots {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+.kr-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 0;
+  background: rgba(255, 255, 255, 0.35);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.25s ease;
+  padding: 0;
+}
+.kr-dot.is-active {
+  background: var(--mht-accent);
+  border-color: var(--mht-accent);
+  transform: scale(1.4);
+}
+
+/* ── Slide counter (bottom-right) ── */
+.kr-counter {
+  position: absolute;
+  bottom: 30px;
+  right: 44px;
+  z-index: 20;
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  color: rgba(255, 255, 255, 0.50);
+  pointer-events: none;
+}
+.kr-counter-current {
+  color: var(--mht-accent);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* ── Progress bar (slide timer, full width at bottom) ── */
+.kr-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: var(--mht-accent);
+  z-index: 21;
+}
+
+/* ══════════════════════════════════════════════════════════
+   RESPONSIVE — kr-
+══════════════════════════════════════════════════════════ */
+
+@media (max-width: 1199px) {
+  .kr-title { font-size: 52px; }
+  .kr-btn   { font-size: 12px; line-height: 52px; height: 52px; padding: 0 36px; }
+}
+@media (max-width: 991px) {
+  .kr-title   { font-size: 44px; }
+  .kr-content { padding: 0 30px; max-width: 580px; }
+  .kr-nav     { width: 46px; height: 46px; }
+  .kr-prev    { left:  15px; }
+  .kr-next    { right: 15px; }
+}
+@media (max-width: 767px) {
+  .kr-title    { font-size: 32px; line-height: 1.3; margin-bottom: 20px; }
+  .kr-subtitle { font-size: 11px; letter-spacing: 2px; margin-bottom: 14px; }
+  .kr-btn      { font-size: 11px; line-height: 44px; height: 44px; padding: 0 24px; }
+  .kr-content  { padding: 0 22px; max-width: 100%; }
+  .kr-nav      { display: none; }
+  .kr-counter  { display: none; }
+  .kr-dots     { bottom: 26px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .kr-bg             { animation: none !important; }
+  .kr-content        { animation: none !important; opacity: 1; filter: none; transform: none; }
+  .kr-particles span { animation: none !important; }
+  .kr-progress       { transition: none !important; }
+}
+
+/* ══════════════════════════════════════════════════════════
+   PAGE-WIDE TYPOGRAPHY — maintain slider font stack across all sections
+   Lora    → all headings (h1–h6), .title, .widget-title, sigma heading variants
+   Poppins → body, paragraphs, subtitles, meta, navigation, footer text
+══════════════════════════════════════════════════════════ */
+
+/* ── Headings → Lora ── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', serif !important;
+}
+
+/* ── Section titles & widget titles → Lora ── */
+.title,
+.widget-title,
+.section-title .title,
+.sigma_service-body h5,
+.sigma_service-body h5 a,
+.sigma_post-body h5,
+.sigma_post-body h5 a,
+.sigma_portfolio-item-content-inner h5,
+.sigma_portfolio-item-content-inner h5 a,
+.sigma_recent-post-body h6,
+.sigma_recent-post-body h6 a,
+.sigma_cta-content h4,
+.sigma_testimonial-content p {
+  font-family: 'Poppins', serif !important;
+}
+
+/* ── Body / meta / UI text → Poppins ── */
+body,
+p,
+.section-title .subtitle,
+.subtitle,
+.sigma_post-meta,
+.sigma_post-category,
+.sigma_post-date,
+.sigma_cta-content > span,
+.sigma_footer-middle .footer-widget > p,
+.footer-widget ul li a,
+.sigma_footer-copyright p,
+.sigma_header,
+nav,
+.navbar-nav a {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+/* ══════════════════════════════════════════════════════════
+   PAGE-WIDE BUTTONS — filled style matching kr-btn, applied to all
+   sigma_btn-custom instances for visual consistency across the page.
+   • Accent-colour fill        • White text
+   • Lora font (matches slider)  • Inverts to transparent on hover
+   • No border-radius            • No ::before slide animation
+══════════════════════════════════════════════════════════ */
+
+
+
+/* Disable the original slide-in ::before animation */
+.sigma_btn-custom::before {
+  display: none !important;
+}
+
+/* Hover / focus — inverts to transparent */
+.sigma_btn-custom:hover,
+.sigma_btn-custom:focus,
+.sigma_btn-custom.primary:hover,
+.sigma_btn-custom.primary:focus,
+.sigma_btn-custom.secondary:hover,
+.sigma_btn-custom.secondary:focus,
+.sigma_btn-custom.light:hover,
+.sigma_btn-custom.light:focus,
+.sigma_btn-custom.dark:hover,
+.sigma_btn-custom.dark:focus,
+.sigma_btn-custom.white:hover,
+.sigma_btn-custom.white:focus,
+.sigma_btn-custom.transparent:hover,
+.sigma_btn-custom.transparent:focus {
+  color:            var(--mht-accent) !important;
+  background-color: transparent !important;
+  border-color:     var(--mht-accent) !important;
+  text-decoration:  none !important;
+}
+
+/* Icon spacing inside buttons */
+.sigma_btn-custom i {
+  margin-left: 6px !important;
+  font-size:   0.9em !important;
+}
+
+/* btn-sm — compact variant */
+.sigma_btn-custom.btn-sm {
+  padding:     0 26px !important;
+  line-height: 44px !important;
+  height:      44px !important;
+  font-size:   11px !important;
+}
+
+/* ══════════════════════════════════════════════════════════
+   SEARCH INPUT — override hardcoded old template colours
+   Input bg  → primary (#253d46)
+   Button bg → accent  (#ae4427)
+══════════════════════════════════════════════════════════ */
+
+.sigma_search-adv-input .form-control {
+  background-color: var(--mht-primary) !important;
+  border: 0 !important;
+  color: #fff !important;
+}
+.sigma_search-adv-input .form-control::placeholder {
+  color: rgba(255, 255, 255, 0.55) !important;
+}
+.sigma_search-adv-input button {
+  background-color: var(--mht-accent) !important;
+  color: #fff !important;
+}
+.sigma_search-adv-input button:hover {
+  background-color: var(--mht-primary) !important;
+  color: #fff !important;
+}
+
+/* ══════════════════════════════════════════════════════════
+   GODS TICKER — kr-gods
+   Full-width marquee strip: 20 Indian god names separated
+   by fa-om icons, linear left-to-right infinite loop.
+   Placed between Donation section and mid-page slider.
+══════════════════════════════════════════════════════════ */
+
+.kr-gods {
+  background-color: var(--mht-primary);
+  padding: 18px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+}
+
+/* Soft fade edges */
+.kr-gods::before,
+.kr-gods::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 80px;
+  z-index: 2;
+  pointer-events: none;
+}
+.kr-gods::before { left:  0; background: linear-gradient(to right,  var(--mht-primary), transparent); }
+.kr-gods::after  { right: 0; background: linear-gradient(to left,   var(--mht-primary), transparent); }
+
+/* Track — duplicated content, animates left 50% for seamless loop */
+.kr-gods-track {
+  display: inline-flex;
+  align-items: center;
+  animation: kr-gods-scroll 50s linear infinite;
+  will-change: transform;
+}
+.kr-gods:hover .kr-gods-track {
+  animation-play-state: paused;
+}
+
+/* God name */
+.kr-gods-name {
+  font-family: 'Poppins', serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #fff;
+  padding: 0 24px;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+}
+.kr-gods-name:hover {
+  color: #fff;
+}
+
+/* Separator icon */
+.kr-gods-sep {
+  color: var(--mht-accent);
+  font-size: 12px;
+  opacity: 0.75;
+  flex-shrink: 0;
+}
+
+@keyframes kr-gods-scroll {
+  from { transform: translateX(0);    }
+  to   { transform: translateX(-50%); }
+}
+
+.sigma_service {
+  border-radius: 0 !important;
+}
+
+/* ── img-group-3: dense two-image overlay ── */
+.img-group-3 {
+  position: relative;
+  padding-bottom: 72px;
+  padding-right: 72px;
+}
+/* primary image — full width, tall */
+.img-group-3 > img:first-child {
+  display: block;
+  width: 100%;
+  height: 460px;
+  object-fit: cover;
+  object-position: center top;
+}
+/* secondary image — overlaps bottom-right corner */
+.img-group-3 > img:nth-child(2) {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 58%;
+  height: 270px;
+  object-fit: cover;
+  border: 6px solid #fff;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+}
+/* accent squares — mirrors img-group-inner span logic */
+.img-group-3 > span {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+}
+.img-group-3 > span:first-of-type {
+  top: -11px;
+  right: 71px;
+  background-color: var(--mht-accent);
+}
+.img-group-3 > span:last-of-type {
+  bottom: 71px;
+  left: -11px;
+  background-color: var(--mht-primary);
+}
+/* tablet */
+@media (max-width: 991px) {
+  .img-group-3 {
+    padding-bottom: 52px;
+    padding-right: 52px;
+  }
+  .img-group-3 > img:first-child  { height: 360px; }
+  .img-group-3 > img:nth-child(2) { height: 200px; }
+  .img-group-3 > span:first-of-type { right: 51px; }
+  .img-group-3 > span:last-of-type  { bottom: 51px; }
+}
+/* mobile */
+@media (max-width: 575px) {
+  .img-group-3 {
+    padding-bottom: 40px;
+    padding-right: 40px;
+  }
+  .img-group-3 > img:first-child  { height: 260px; }
+  .img-group-3 > img:nth-child(2) { height: 150px; border-width: 4px; }
+  .img-group-3 > span:first-of-type { right: 39px; }
+  .img-group-3 > span:last-of-type  { bottom: 39px; }
+}
+
+/* ── kr-about-img: image + counter overlay ── */
+.kr-about-img {
+  position: relative;
+  height: 100%;
+  min-height: 400px;
+}
+.kr-about-img > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 400px;
+  object-fit: cover;
+  object-position: center;
+}
+/* accent counter box — bottom-right corner */
+.kr-about-counter {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background-color: var(--mht-accent);
+  padding: 28px 38px;
+  text-align: center;
+  min-width: 150px;
+}
+.kr-about-counter b {
+  display: block;
+  font-family: 'Lora', serif;
+  font-size: 72px;
+  line-height: 1;
+  color: #fff;
+  font-weight: 700;
+}
+.kr-about-counter > span {
+  font-family: 'Lora', serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+  vertical-align: super;
+}
+.kr-about-counter p {
+  margin: 10px 0 0;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 11px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+}
+@media (max-width: 991px) {
+  .kr-about-img,
+  .kr-about-img > img { min-height: 320px; }
+  .kr-about-counter b  { font-size: 56px; }
+}
+@media (max-width: 575px) {
+  .kr-about-img,
+  .kr-about-img > img { min-height: 260px; }
+  .kr-about-counter   { padding: 20px 26px; min-width: 120px; }
+  .kr-about-counter b { font-size: 48px; }
+  .kr-about-counter > span { font-size: 22px; }
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif !important;
+}

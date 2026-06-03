@@ -1,0 +1,1352 @@
+/* ================================================================
+   hanuman.css — Page-specific styles for home-hanuman.html
+   All classes prefixed with  hanuman-s1-  /  hanuman-s2-  / hanuman-s3-
+   to avoid conflicts with the template's sigma_ namespace.
+
+   hanuman-s1-  → Slider 1 (3-slide fade hero: Jaipur / Hanuman / Forest)
+   hanuman-s2-  → Slider 2 (Bajrangabali: cave bg + Hanuman figure)
+   hanuman-s3-  → Slider 3 (Rock-frame: "Lighting the Way / Our Next Challenge")
+================================================================ */
+
+:root {
+  --mht-subtitle: #7e4555;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; width: 100%; background: #051210; }
+
+
+/* ═══════════════════════════════════════════════════════════
+   SLIDER 1 — hanuman-s1-  (3 slides, fade, arrows + dots)
+═══════════════════════════════════════════════════════════ */
+
+.hanuman-s1-hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 600px;
+  overflow: hidden;
+}
+
+/* Slides — stacked, faded in/out */
+.hanuman-s1-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hanuman-s1-slide.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Background per slide (Ken Burns on active) */
+.hanuman-s1-bg {
+  position: absolute;
+  inset: -6%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+.hanuman-s1-slide:nth-child(1) .hanuman-s1-bg { background-image: url('../img/hanuman/jaipur1.png'); }
+.hanuman-s1-slide:nth-child(2) .hanuman-s1-bg { background-image: url('../img/hanuman/hanuman.png'); }
+.hanuman-s1-slide:nth-child(3) .hanuman-s1-bg { background-image: url('../img/hanuman/forest.png'); }
+
+.hanuman-s1-slide.is-active .hanuman-s1-bg {
+  animation: hanuman-s1-bg-zoom 9s ease-out forwards;
+}
+@keyframes hanuman-s1-bg-zoom {
+  from { transform: scale(1); }
+  to   { transform: scale(1.08); }
+}
+
+/* Dark tint */
+.hanuman-s1-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.22);
+  z-index: 1;
+}
+
+/* Overlay image layers */
+.hanuman-s1-layer {
+  position: absolute;
+  pointer-events: none;
+  display: block;
+  opacity: 0;
+  filter: blur(10px);
+  transition: opacity 0.35s ease, filter 0.35s ease;
+}
+.hanuman-s1-layer-bottom  { bottom: 0; left: 0;  width: 100%; height: auto; z-index: 5; }
+.hanuman-s1-layer-top     { top: 0;    left: 0;  width: 100%; height: auto; z-index: 4; }
+.hanuman-s1-layer-left    { top: 0;    left: 0;  width: 100%; height: auto; z-index: 4; }
+.hanuman-s1-layer-right   { top: 0;    right: 0; width: 100%; height: auto; z-index: 4; }
+.hanuman-s1-layer-hanuman { bottom: 0; left: 0;  width: 1060px; height: auto; z-index: 6; }
+.hanuman-s1-layer-cloud   { bottom: 12%; left: -5%; width: 72%;    height: auto; z-index: 5; }
+
+/* Entrance keyframes */
+@keyframes hanuman-s1-enter-bottom {
+  from { transform: translateY(100%);  filter: blur(10px); opacity: 0; }
+  to   { transform: translateY(0);     filter: blur(0);    opacity: 1; }
+}
+@keyframes hanuman-s1-enter-top {
+  from { transform: translateY(-100%); filter: blur(10px); opacity: 0; }
+  to   { transform: translateY(0);     filter: blur(0);    opacity: 1; }
+}
+@keyframes hanuman-s1-enter-left {
+  from { transform: translateX(-100%); filter: blur(10px); opacity: 0; }
+  to   { transform: translateX(0);     filter: blur(0);    opacity: 1; }
+}
+@keyframes hanuman-s1-enter-right {
+  from { transform: translateX(100%);  filter: blur(10px); opacity: 0; }
+  to   { transform: translateX(0);     filter: blur(0);    opacity: 1; }
+}
+
+/* Breathe keyframes */
+@keyframes hanuman-s1-breathe-y {
+  0%, 100% { transform: translateY(0) scale(1);    }
+  50%       { transform: translateY(0) scale(1.10); }
+}
+@keyframes hanuman-s1-breathe-x {
+  0%, 100% { transform: translateX(0) scale(1);    }
+  50%       { transform: translateX(0) scale(1.05); }
+}
+
+/* Cloud keyframes — fade-in entrance, then eternal float */
+@keyframes hanuman-s1-cloud-in {
+  from { opacity: 0;    transform: translateY(30px); filter: blur(8px); }
+  to   { opacity: 0.78; transform: translateY(0);    filter: blur(0);   }
+}
+@keyframes hanuman-s1-cloud-float {
+  0%, 100% { transform: translateY(0);     }
+  50%       { transform: translateY(-20px); }
+}
+
+/* Active-slide layer animation triggers */
+.hanuman-s1-slide.is-active .hanuman-s1-layer-bottom {
+  animation:
+    hanuman-s1-enter-bottom  0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s forwards,
+    hanuman-s1-breathe-y     9.5s linear 1.4s infinite;
+}
+.hanuman-s1-slide.is-active .hanuman-s1-layer-top {
+  animation:
+    hanuman-s1-enter-top     0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s forwards,
+    hanuman-s1-breathe-y     9.5s linear 1.4s infinite;
+}
+.hanuman-s1-slide.is-active .hanuman-s1-layer-left {
+  animation:
+    hanuman-s1-enter-left    0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s forwards,
+    hanuman-s1-breathe-x     9.5s linear 1.4s infinite;
+}
+.hanuman-s1-slide.is-active .hanuman-s1-layer-right {
+  animation:
+    hanuman-s1-enter-right   0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s forwards,
+    hanuman-s1-breathe-x     9.5s linear 1.4s infinite;
+}
+.hanuman-s1-slide.is-active .hanuman-s1-layer-hanuman {
+  animation:
+    hanuman-s1-enter-left    0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s forwards,
+    hanuman-s1-breathe-y     9.5s linear 1.4s infinite;
+}
+/* Cloud drifts up from behind as slide activates, then floats forever */
+.hanuman-s1-slide.is-active .hanuman-s1-layer-cloud {
+  animation:
+    hanuman-s1-cloud-in    1.4s ease-out              0.2s forwards,
+    hanuman-s1-cloud-float 8s  ease-in-out            1.6s infinite;
+}
+
+/* Content column */
+.hanuman-s1-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 0 50px;
+  opacity: 0;
+  filter: blur(10px);
+  transform: scale(0);
+  transition: opacity 0.35s ease, filter 0.35s ease;
+}
+.hanuman-s1-slide.is-active .hanuman-s1-content {
+  animation: hanuman-s1-content-in 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s both;
+}
+@keyframes hanuman-s1-content-in {
+  from { transform: scale(0);   filter: blur(10px); opacity: 0; }
+  to   { transform: scale(1);   filter: blur(0);    opacity: 1; }
+}
+
+/* Subtitle — Poppins 30px gold */
+.hanuman-s1-subtitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 60px;
+  color: var(--mht-subtitle, var(--mht-accent));
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+  white-space: nowrap;
+}
+/* Title — Lora 700 110px uppercase gold */
+.hanuman-s1-title {
+  font-family: 'Lora', serif;
+  font-size: 110px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--mht-accent);
+  text-transform: uppercase;
+  margin: 10px 0 30px;
+}
+/* Button */
+.hanuman-s1-btn {
+  display: inline-block;
+  font-family: 'Lora', serif;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 70px;
+  height: 70px;
+  padding: 0 45px;
+  color: var(--mht-accent);
+  background: transparent;
+  border: 1px solid rgba(var(--mht-accent-rgb), 0.35);
+  border-radius: 5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+}
+.hanuman-s1-btn:hover,
+.hanuman-s1-btn:focus {
+  color: #051210;
+  background-color: var(--mht-accent);
+  border-color: var(--mht-accent);
+  text-decoration: none;
+}
+
+/* Navigation arrows */
+.hanuman-s1-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  width: 54px;
+  height: 54px;
+  background: transparent;
+  border: 1px solid rgba(var(--mht-accent-rgb), 0.40);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+  padding: 0;
+}
+.hanuman-s1-nav:hover { background: rgba(var(--mht-accent-rgb), 0.18); border-color: var(--mht-accent); }
+.hanuman-s1-prev { left: 30px; }
+.hanuman-s1-next { right: 30px; }
+
+.hanuman-s1-prev::after,
+.hanuman-s1-next::after {
+  content: '';
+  display: block;
+  width: 11px;
+  height: 11px;
+  border-color: var(--mht-accent);
+  border-style: solid;
+}
+.hanuman-s1-prev::after { border-width: 0 0 2px 2px; transform: rotate(45deg) translate(2px, -2px); }
+.hanuman-s1-next::after { border-width: 2px 2px 0 0; transform: rotate(45deg) translate(-2px, 2px); }
+
+/* Dots */
+.hanuman-s1-dots {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  gap: 10px;
+}
+.hanuman-s1-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(var(--mht-accent-rgb), 0.35);
+  border: 1px solid rgba(var(--mht-accent-rgb), 0.50);
+  cursor: pointer;
+  transition: background 0.25s ease;
+  padding: 0;
+}
+.hanuman-s1-dot.is-active { background: var(--mht-accent); }
+
+/* Responsive — s1 */
+@media (max-width: 1199px) {
+  .hanuman-s1-subtitle      { font-size: 24px; line-height: 49px; }
+  .hanuman-s1-title         { font-size: 90px; }
+  .hanuman-s1-btn           { font-size: 13px; line-height: 55px; height: 55px; padding: 0 37px; }
+  .hanuman-s1-layer-hanuman { width: 990px; }
+}
+@media (max-width: 991px) {
+  .hanuman-s1-subtitle      { font-size: 20px; line-height: 40px; }
+  .hanuman-s1-title         { font-size: 68px; }
+  .hanuman-s1-btn           { line-height: 50px; height: 50px; padding: 0 28px; }
+  .hanuman-s1-content       { padding: 0 30px; }
+  .hanuman-s1-layer-hanuman { width: 1139px; }
+  .hanuman-s1-nav           { width: 44px; height: 44px; }
+  .hanuman-s1-prev          { left: 15px; }
+  .hanuman-s1-next          { right: 15px; }
+}
+@media (max-width: 767px) {
+  .hanuman-s1-subtitle      { font-size: 18px; line-height: 50px; white-space: normal; }
+  .hanuman-s1-title         { font-size: 41px; margin: 10px 0 20px; }
+  .hanuman-s1-btn           { font-size: 12px; line-height: 40px; height: 40px; padding: 0 25px; }
+  .hanuman-s1-content       { padding: 0 20px; }
+  .hanuman-s1-layer-hanuman { width: 65%; }       /* scaled from 1060px fixed → percentage on mobile */
+  /* cloud stays visible — width:72% already scales; bottom/left anchors stay intact */
+  /* Rock layers: swap to height-driven so they fill the full slider height on narrow screens.
+     width:auto + overflow:hidden on parent clips them to their anchor edge (left/right),
+     reproducing the same cave-wall framing as desktop. */
+  .hanuman-s1-layer-left,
+  .hanuman-s1-layer-right   { width: auto; height: 100%; }
+  .hanuman-s1-nav           { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hanuman-s1-bg, .hanuman-s1-content, .hanuman-s1-layer { animation: none !important; transition: none !important; }
+  .hanuman-s1-layer   { opacity: 1; filter: none; }
+  .hanuman-s1-content { opacity: 1; filter: none; transform: scale(1); }
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   SLIDER 2 — hanuman-s2-  (Bajrangabali: cave bg + Hanuman figure)
+═══════════════════════════════════════════════════════════ */
+
+.hanuman-s2-hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 600px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Background — Ken Burns zoom */
+.hanuman-s2-hero-bg {
+  position: absolute;
+  inset: -6%;
+  background: url('../img/hanuman/cave1.jpg') center center / cover no-repeat;
+  animation: hanuman-s2-bg-zoom 9s ease-out forwards;
+  z-index: 0;
+}
+@keyframes hanuman-s2-bg-zoom {
+  from { transform: scale(1);    }
+  to   { transform: scale(1.08); }
+}
+
+/* Dark tint */
+.hanuman-s2-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.22);
+  z-index: 1;
+}
+
+/* Blending gradients — top & bottom */
+.hanuman-s2-fade-top,
+.hanuman-s2-fade-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 35%;
+  z-index: 20;
+  pointer-events: none;
+}
+.hanuman-s2-fade-top    { top: 0;    background: linear-gradient(to bottom, #051210, transparent); }
+.hanuman-s2-fade-bottom { bottom: 0; background: linear-gradient(to top,   #051210, transparent); }
+
+/* Hanuman figure — bottom-left, enters from left */
+.hanuman-s2-hanuman {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 1028px;
+  height: 578px;
+  z-index: 5;
+  pointer-events: none;
+  display: block;
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateX(-100%);
+  animation:
+    hanuman-s2-enter-left  0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s forwards,
+    hanuman-s2-breathe     9.5s linear 1.4s infinite;
+}
+@keyframes hanuman-s2-enter-left {
+  from { transform: translateX(-100%); filter: blur(10px); opacity: 0; }
+  to   { transform: translateX(0);     filter: blur(0);    opacity: 1; }
+}
+@keyframes hanuman-s2-breathe {
+  0%, 100% { transform: translateX(0) scale(1);    }
+  50%       { transform: translateX(0) scale(1.10); }
+}
+
+/* Content column */
+.hanuman-s2-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 0 50px;
+  animation: hanuman-s2-content-in 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s both;
+}
+@keyframes hanuman-s2-content-in {
+  from { transform: scale(0);   filter: blur(10px); opacity: 0; }
+  to   { transform: scale(1);   filter: blur(0);    opacity: 1; }
+}
+
+.hanuman-s2-subtitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 60px;
+  color: var(--mht-subtitle, var(--mht-accent));
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+  white-space: nowrap;
+}
+.hanuman-s2-title {
+  font-family: 'Lora', serif;
+  font-size: 110px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--mht-accent);
+  text-transform: uppercase;
+  margin: 10px 0 30px;
+}
+.hanuman-s2-btn {
+  display: inline-block;
+  font-family: 'Lora', serif;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 70px;
+  height: 70px;
+  padding: 0 45px;
+  color: var(--mht-accent);
+  background: transparent;
+  border: 1px solid rgba(var(--mht-accent-rgb), 0.35);
+  border-radius: 5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+}
+.hanuman-s2-btn:hover,
+.hanuman-s2-btn:focus {
+  color: #051210;
+  background-color: var(--mht-accent);
+  border-color: var(--mht-accent);
+  text-decoration: none;
+}
+
+/* Responsive — s2 */
+@media (max-width: 1199px) {
+  .hanuman-s2-subtitle { font-size: 24px; line-height: 49px; }
+  .hanuman-s2-title    { font-size: 90px; }
+  .hanuman-s2-btn      { font-size: 13px; line-height: 55px; height: 55px; padding: 0 37px; }
+  .hanuman-s2-hanuman  { width: 990px; height: auto; left: -300px; }
+}
+@media (max-width: 991px) {
+  .hanuman-s2-subtitle { font-size: 20px; line-height: 40px; }
+  .hanuman-s2-title    { font-size: 68px; }
+  .hanuman-s2-btn      { line-height: 50px; height: 50px; padding: 0 28px; }
+  .hanuman-s2-content  { padding: 0 30px; }
+  .hanuman-s2-hanuman  { width: 1139px; height: 100%; left: -300px; }
+}
+@media (max-width: 767px) {
+  .hanuman-s2-subtitle { font-size: 18px; line-height: 50px; white-space: normal; }
+  .hanuman-s2-title    { font-size: 41px; margin: 10px 0 20px; }
+  .hanuman-s2-btn      { font-size: 12px; line-height: 40px; height: 40px; padding: 0 25px; }
+  .hanuman-s2-content  { padding: 0 20px; }
+  .hanuman-s2-hanuman  { width: 784px; height: 661px; left: -250px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hanuman-s2-hero-bg { animation: none; }
+  .hanuman-s2-content { animation: none; opacity: 1; filter: none; transform: none; }
+  .hanuman-s2-hanuman { animation: none; opacity: 1; filter: none; transform: none; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   SLIDER 3 — hanuman-s3-  (Rock-frame: "Our Next Challenge")
+═══════════════════════════════════════════════════════════ */
+
+.hanuman-s3-hero {
+  position: relative;
+  width: 100%;
+  height: 125vh;
+  min-height: 750px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Background — Ken Burns zoom */
+.hanuman-s3-bg {
+  position: absolute;
+  inset: -6%;
+  background: url('../img/hanuman/hanuman.png') center center / cover no-repeat;
+  animation: hanuman-s3-bg-zoom 9s ease-out forwards;
+  z-index: 0;
+}
+@keyframes hanuman-s3-bg-zoom {
+  from { transform: scale(1);    }
+  to   { transform: scale(1.08); }
+}
+
+/* Dark tint — heavier since hanuman.png is lighter */
+.hanuman-s3-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  z-index: 1;
+}
+
+/* Rock overlay layers — top & bottom cave frame */
+.hanuman-s3-layer {
+  position: absolute;
+  pointer-events: none;
+  display: block;
+  width: 100%;
+  height: auto;
+  opacity: 1;
+  filter: none;
+}
+.hanuman-s3-layer-top    { top: 0;    left: 0; z-index: 4; }
+.hanuman-s3-layer-bottom { bottom: 0; left: 0; z-index: 5; }
+
+/* ── Floating bubble particles ── */
+.hanuman-s3-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 6;           /* above rock frames (4/5), below content (10) */
+}
+.hanuman-s3-particles span {
+  position: absolute;
+  bottom: -10px;
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: rgba(var(--mht-accent-rgb), 0.60);   /* gold var(--mht-accent) */
+  animation: hanuman-particles-rise var(--dur, 8s) ease-in var(--delay, 0s) infinite;
+}
+/* Individual positions, sizes & timing */
+.hanuman-s3-particles span:nth-child(1)  { left:  8%; --dur:  9s; --delay: 0s;   }
+.hanuman-s3-particles span:nth-child(2)  { left: 18%; --dur:  7s; --delay: 1.5s; width: 3px; height: 3px; }
+.hanuman-s3-particles span:nth-child(3)  { left: 32%; --dur: 11s; --delay: 0.5s; }
+.hanuman-s3-particles span:nth-child(4)  { left: 46%; --dur:  8s; --delay: 2s;   width: 5px; height: 5px; background: rgba(var(--mht-accent-rgb), 0.40); }
+.hanuman-s3-particles span:nth-child(5)  { left: 58%; --dur: 10s; --delay: 1s;   }
+.hanuman-s3-particles span:nth-child(6)  { left: 70%; --dur:  6s; --delay: 3s;   width: 3px; height: 3px; }
+.hanuman-s3-particles span:nth-child(7)  { left: 82%; --dur:  9s; --delay: 0.8s; background: rgba(var(--mht-accent-rgb), 0.45); }
+.hanuman-s3-particles span:nth-child(8)  { left:  5%; --dur: 12s; --delay: 2.5s; }
+.hanuman-s3-particles span:nth-child(9)  { left: 25%; --dur: 8.5s;--delay: 4s;   width: 3px; height: 3px; background: rgba(var(--mht-accent-rgb), 0.35); }
+.hanuman-s3-particles span:nth-child(10) { left: 52%; --dur: 13s; --delay: 1.2s; width: 5px; height: 5px; }
+.hanuman-s3-particles span:nth-child(11) { left: 75%; --dur: 7.5s;--delay: 3.5s; }
+.hanuman-s3-particles span:nth-child(12) { left: 92%; --dur: 10s; --delay: 0.3s; width: 3px; height: 3px; background: rgba(var(--mht-accent-rgb), 0.30); }
+
+/* Alternating horizontal drift */
+.hanuman-s3-particles span:nth-child(odd)  { --drift:  30px; }
+.hanuman-s3-particles span:nth-child(even) { --drift: -20px; }
+
+/* Rise keyframe — bottom to top, fade in/out, drift sideways */
+@keyframes hanuman-particles-rise {
+  0%   { bottom: -10px; opacity: 0; transform: translateX(0); }
+  15%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { bottom: 105%; opacity: 0; transform: translateX(calc(var(--drift, 30px))); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hanuman-s3-particles span { animation: none; }
+}
+
+/* Blending gradients — top & bottom */
+.hanuman-s3-fade-top,
+.hanuman-s3-fade-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 35%;
+  z-index: 20;
+  pointer-events: none;
+}
+.hanuman-s3-fade-top    { top: 0;    background: linear-gradient(to bottom, #051210, transparent); }
+.hanuman-s3-fade-bottom { bottom: 0; background: linear-gradient(to top,   #000,    transparent); }
+
+/* Content — text only, no button */
+.hanuman-s3-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 0 50px;
+  animation: hanuman-s3-content-in 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s both;
+}
+@keyframes hanuman-s3-content-in {
+  from { transform: scale(0);   filter: blur(10px); opacity: 0; }
+  to   { transform: scale(1);   filter: blur(0);    opacity: 1; }
+}
+
+.hanuman-s3-subtitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 60px;
+  color: var(--mht-subtitle, var(--mht-accent));
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+  white-space: nowrap;
+}
+.hanuman-s3-title {
+  font-family: 'Lora', serif;
+  font-size: 110px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--mht-accent);
+  text-transform: uppercase;
+  margin: 10px 0 0;
+}
+
+/* Responsive — s3 */
+@media (max-width: 1199px) {
+  .hanuman-s3-subtitle { font-size: 24px; line-height: 49px; }
+  .hanuman-s3-title    { font-size: 90px; }
+}
+@media (max-width: 991px) {
+  .hanuman-s3-subtitle { font-size: 20px; line-height: 40px; }
+  .hanuman-s3-title    { font-size: 68px; }
+  .hanuman-s3-content  { padding: 0 30px; }
+}
+@media (max-width: 767px) {
+  .hanuman-s3-subtitle { font-size: 18px; line-height: 50px; white-space: normal; }
+  .hanuman-s3-title    { font-size: 41px; }
+  .hanuman-s3-content  { padding: 0 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hanuman-s3-bg, .hanuman-s3-layer { animation: none; }
+  .hanuman-s3-layer                 { opacity: 1; filter: none; }
+  .hanuman-s3-content               { animation: none; opacity: 1; filter: none; transform: none; }
+}
+
+
+/* ═══════════════════════════════════════════════════════════
+   SHARED — img-group z-index fix + typography overrides
+═══════════════════════════════════════════════════════════ */
+
+/* img-group: override style.css z-index:-1 so images aren't hidden */
+.img-group img:nth-child(2),
+.img-group img:nth-child(3) { z-index: 1; }
+
+/* Subtitle / label text */
+.subtitle,
+.sigma_post-category,
+.sigma_post-date,
+.sigma_cta-content > span { font-family: 'Poppins', sans-serif !important; color: var(--mht-subtitle, var(--mht-accent)) !important; letter-spacing: 1px; }
+
+/* Main section titles */
+.title,
+h5.widget-title { font-family: 'Lora', serif !important; font-weight: 700 !important; color: var(--mht-accent) !important; text-transform: uppercase; }
+
+/* Component sub-headings */
+.sigma_service-body h5,
+.sigma_portfolio-item-content-inner h5,
+.sigma_portfolio-item-content-inner h5 a,
+.sigma_post-body h5,
+.sigma_post-body h5 a,
+.sigma_recent-post-body h6,
+.sigma_recent-post-body h6 a,
+.sigma_cta-content h4 { font-family: 'Lora', serif !important; font-weight: 700 !important; color: var(--mht-accent) !important; }
+
+/* Hanuman service card colour overrides — scoped so no other sigma_service cards are affected */
+.hanuman-svc-teal { background-color: #0c312b !important; border: 0 !important; }   /* dark teal  */
+.hanuman-svc-deep { background-color: #7e4555 !important; border: 0 !important; }   /* red        */
+
+/* On coloured-bg cards the accent-colour h5 would blend — lock to white to match p/span density */
+.hanuman-svc-teal .sigma_service-body h5,
+.hanuman-svc-deep .sigma_service-body h5 { color: #fff !important; }
+
+/* Body / meta text */
+.sigma_service-body p,
+.sigma_post-meta,
+.sigma_post-single-author-content,
+.sigma_footer-middle > .container > .row > [class*="col"] > p,
+.sigma_footer-middle .footer-widget > p,
+.footer-widget ul li a,
+.sigma_footer-copyright p { font-family: 'Poppins', sans-serif !important; color: rgba(255,255,255,0.75) !important; }
+
+/* "GET STARTED NOW" text link */
+a.custom-text-btn { font-family: 'Poppins', sans-serif !important; color: var(--mht-accent) !important; letter-spacing: 1px; text-decoration: none; }
+a.custom-text-btn i { color: var(--mht-accent) !important; }
+
+/* sigma_btn-custom → slider border-button style */
+.sigma_btn-custom,
+.sigma_btn-custom.light {
+  font-family: 'Lora', serif !important;
+  font-size: 15px !important;
+  line-height: 60px;
+  height: 60px;
+  padding: 0 40px !important;
+  color: var(--mht-accent) !important;
+  background: transparent !important;
+  border: 1px solid rgba(var(--mht-accent-rgb),0.35) !important;
+  border-radius: 5px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  cursor: pointer;
+  transition: color 0.25s ease, background-color 0.25s ease, border-color 0.25s ease !important;
+}
+.sigma_btn-custom:hover,  .sigma_btn-custom:focus,
+.sigma_btn-custom.light:hover, .sigma_btn-custom.light:focus {
+  color: #051210 !important;
+  background-color: var(--mht-accent) !important;
+  border-color: var(--mht-accent) !important;
+}
+
+/* Disable template ::before slide-in so gold fill wins */
+.sigma_btn-custom::before { display: none !important; }
+
+/* Service card "Learn More" */
+.sigma_service .btn-link { font-family: 'Poppins', sans-serif !important; letter-spacing: 1px; }
+
+/* Header + contact form buttons: filled gold by default */
+.sigma_header .sigma_btn-custom,
+button.sigma_btn-custom {
+  color: #051210 !important;
+  background-color: var(--mht-accent) !important;
+  border-color: var(--mht-accent) !important;
+}
+.sigma_header .sigma_btn-custom:hover, .sigma_header .sigma_btn-custom:focus,
+button.sigma_btn-custom:hover, button.sigma_btn-custom:focus {
+  background-color: transparent !important;
+  color: var(--mht-accent) !important;
+  border-color: rgba(var(--mht-accent-rgb),0.35) !important;
+}
+
+/* Footer bottom copyright + social */
+.sigma_footer-copyright p { font-family: 'Poppins', sans-serif !important; color: rgba(255,255,255,0.6) !important; }
+.sigma_footer-copyright a { color: var(--mht-accent) !important; }
+.sigma_sm.square li a { border-color: rgba(var(--mht-accent-rgb),0.35) !important; color: var(--mht-accent) !important; }
+.sigma_sm.square li a:hover { background: var(--mht-accent) !important; color: #051210 !important; border-color: var(--mht-accent) !important; }
+
+/* Search input — matches V1's lighter-input / darker-button density relative to active theme primary.
+   color-mix() blends primary 72% toward white (input) or black (button), preserving visual depth
+   across all 8 colour themes the same way V1's hardcoded shades did for mauve. */
+.sigma_search-adv-input .form-control { background-color: color-mix(in srgb, var(--mht-primary) 72%, #fff) !important; }
+.sigma_search-adv-input button        { background-color: color-mix(in srgb, var(--mht-primary) 72%, #000) !important; }
+.sigma_search-adv-input button:hover  { background-color: var(--mht-accent) !important; }
+
+/* Testimonial card — scoped to .hanuman-testimonial so other style-2 blocks are untouched */
+.sigma_testimonial.hanuman-testimonial .sigma_testimonial-inner { background-color: #00000082 !important; }
+
+/* Arrows — scoped to .hanuman-arrows so other sigma_arrows.style-2 blocks are untouched */
+.sigma_arrows.hanuman-arrows                        { background-color: #020908     !important; }
+.sigma_arrows.hanuman-arrows .slick-arrow           { color: var(--mht-primary)     !important; }
+.sigma_arrows.hanuman-arrows .slick-arrow:hover     { color: #fff                   !important; }
+
+/* Slider subtitles: Om icon (FA \f679) before & after */
+.hanuman-s1-subtitle::before, .hanuman-s1-subtitle::after,
+.hanuman-s2-subtitle::before, .hanuman-s2-subtitle::after,
+.hanuman-s3-subtitle::before, .hanuman-s3-subtitle::after {
+  content: "\f679";
+  font-family: "Font Awesome 5 Pro";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  display: inline-block;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  font-size: 18px;
+  margin-right: 15px;
+}
+.hanuman-s1-subtitle::after,
+.hanuman-s2-subtitle::after,
+.hanuman-s3-subtitle::after { margin-right: 0; margin-left: 15px; }
+
+.header-2 .sigma_logo-wrapper { z-index: 999; }
+
+
+/* ══════════════════════════════════════════════════════════════
+   HANUMAN-2 HERO — Bajrangabali (sr-* classes)
+══════════════════════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; }
+
+/* ─────────────────────────────────────────────
+   Fullscreen hero
+───────────────────────────────────────────── */
+.sr-hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 600px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Background layer — zooms slowly (Ken Burns) */
+.sr-hero-bg {
+  position: absolute;
+  inset: -6%;                  /* extra margin so scale(1.08) never exposes edges */
+  background: url('../img/hanuman/cave1.jpg') center center / cover no-repeat;
+  animation: sr-bg-zoom 9s ease-out forwards;
+  z-index: 0;
+}
+@keyframes sr-bg-zoom {
+  from { transform: scale(1);    }
+  to   { transform: scale(1.08); }
+}
+
+/* Dark tint overlay */
+.sr-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.22);
+  z-index: 1;
+}
+
+/* ─────────────────────────────────────────────
+   Hanuman overlay image  (bottom-left, enters from left)
+   Original Rev Slider layer 0 — alias "Copy left-image"
+   d: 1028×578px  |  n: 990px wide, left:-300px
+   t: 1139px wide, left:-300px  |  m: 784×661px, left:-250px
+───────────────────────────────────────────── */
+.sr-hanuman {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 1028px;
+  height: 578px;
+  z-index: 5;
+  pointer-events: none;
+  display: block;
+
+  /* Start hidden — animation takes over */
+  opacity: 0;
+  filter: blur(10px);
+  transform: translateX(-100%);
+
+  /* Entrance (power2.out, 900ms, 500ms delay) then breathe loop */
+  animation:
+    sr-enter-left  0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s forwards,
+    sr-breathe     9.5s linear 1.4s infinite;
+}
+
+@keyframes sr-enter-left {
+  from { transform: translateX(-100%); filter: blur(10px); opacity: 0; }
+  to   { transform: translateX(0);     filter: blur(0);    opacity: 1; }
+}
+/* Breathe includes translateX(0) to prevent transform-composition override */
+@keyframes sr-breathe {
+  0%, 100% { transform: translateX(0) scale(1);    }
+  50%       { transform: translateX(0) scale(1.10); }
+}
+
+/* ─────────────────────────────────────────────
+   Cloud layer  (banner.png — floats behind Hanuman)
+   z-index 4 → sits behind sr-hanuman (z-index 5)
+   Gives illusion of height / divine elevation
+───────────────────────────────────────────── */
+.sr-cloud {
+  position: absolute;
+  bottom: 12%;
+  left: -5%;
+  width: 72%;
+  height: auto;
+  z-index: 4;
+  pointer-events: none;
+  display: block;
+  /* Start hidden — cloud-in takes over */
+  opacity: 0;
+  filter: blur(8px);
+  animation:
+    sr-cloud-in    1.4s ease-out    0.2s forwards,
+    sr-cloud-float 8s  ease-in-out  1.6s infinite;
+}
+
+@keyframes sr-cloud-in {
+  from { opacity: 0;    transform: translateY(30px); filter: blur(8px); }
+  to   { opacity: 0.78; transform: translateY(0);    filter: blur(0);   }
+}
+@keyframes sr-cloud-float {
+  0%, 100% { transform: translateY(0);     }
+  50%       { transform: translateY(-20px); }
+}
+
+/* ─────────────────────────────────────────────
+   Central content column
+   Rev Slider layer group: row(1) > column(2) > text(3,4) + button(5)
+   Enters: scale 0→1, blur 10px→0, 900ms, 500ms delay
+───────────────────────────────────────────── */
+.sr-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 0 50px;
+  animation: sr-content-in 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s both;
+}
+@keyframes sr-content-in {
+  from { transform: scale(0);   filter: blur(10px); opacity: 0; }
+  to   { transform: scale(1);   filter: blur(0);    opacity: 1; }
+}
+
+/* Subtitle — layer 3 — Poppins, 30px, red */
+.sr-subtitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 30px;
+  line-height: 60px;
+  color: #7e4555;
+  margin: 0;
+  white-space: nowrap;
+}
+.sr-subtitle i {
+  font-size: 0.52em;
+  vertical-align: middle;
+  margin: 0 8px;
+  color: #7e4555;
+}
+
+/* Title — layer 4 — Lora 700, 110px, uppercase, gold */
+.sr-title {
+  font-family: 'Lora', serif;
+  font-size: 110px;
+  font-weight: 700;
+  line-height: 1;
+  color: #fbc62f;
+  text-transform: uppercase;
+  margin: 10px 0 30px;
+}
+
+/* Button — layer 5 — gold border, fills on hover */
+.sr-btn {
+  display: inline-block;
+  font-family: 'Lora', serif;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 70px;
+  height: 70px;
+  padding: 0 45px;
+  color: #0c0c0c;
+  background: #fbc62f;
+  border: 1px solid #fbc62f;
+  border-radius: 5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+}
+.sr-btn:hover,
+.sr-btn:focus {
+  color: #fbc62f;
+  background-color: transparent;
+  border-color: rgba(251, 198, 47, 0.6);
+  text-decoration: none;
+}
+
+/* ─────────────────────────────────────────────
+   Responsive  (mirrors Rev Slider JSON breakpoints)
+───────────────────────────────────────────── */
+
+/* Notebook — max 1199px */
+@media (max-width: 1199px) {
+  .sr-subtitle { font-size: 24px; line-height: 49px; }
+  .sr-title    { font-size: 90px; }
+  .sr-btn      { font-size: 13px; line-height: 55px; height: 55px; padding: 0 37px; }
+  .sr-hanuman  { width: 990px; height: auto; left: -300px; }
+}
+
+/* Tablet — max 991px */
+@media (max-width: 991px) {
+  .sr-subtitle { font-size: 20px; line-height: 40px; }
+  .sr-title    { font-size: 68px; }
+  .sr-btn      { line-height: 50px; height: 50px; padding: 0 28px; }
+  .sr-content  { padding: 0 30px; }
+  .sr-hanuman  { width: 1139px; height: 100%; left: -300px; }
+}
+
+/* Mobile — max 767px */
+@media (max-width: 767px) {
+  .sr-subtitle { font-size: 18px; line-height: 50px; white-space: normal; }
+  .sr-title    { font-size: 41px; margin: 10px 0 20px; }
+  .sr-btn      { font-size: 12px; line-height: 40px; height: 40px; padding: 0 25px; }
+  .sr-content  { padding: 0 20px; }
+  .sr-hanuman  { width: 784px; height: 661px; left: -250px; }
+  .sr-cloud    { width: 100%; left: 0; }   /* span full width behind repositioned Hanuman */
+}
+
+/* Accessibility — skip animations on user preference */
+@media (prefers-reduced-motion: reduce) {
+  .sr-hero-bg  { animation: none; }
+  .sr-content  { animation: none; opacity: 1; filter: none; transform: none; }
+  .sr-hanuman  { animation: none; opacity: 1; filter: none; transform: none; }
+  .sr-cloud    { animation: none; opacity: 0.78; filter: none; transform: none; }
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   HANUMAN-3 HERO — Rock Frame Slider (h3-* classes)
+══════════════════════════════════════════════════════════════ */
+
+/* ─────────────────────────────────────────────
+   Hero container
+───────────────────────────────────────────── */
+.h3-hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  min-height: 600px;
+  overflow: hidden;
+}
+
+/* ─────────────────────────────────────────────
+   Slides  (stacked, faded in/out)
+───────────────────────────────────────────── */
+.h3-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.h3-slide.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Background per slide (zoom animation starts when slide activates) */
+.h3-bg {
+  position: absolute;
+  inset: -6%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+.h3-slide:nth-child(1) .h3-bg { background-image: url('../img/hanuman/jaipur1.png'); }
+.h3-slide:nth-child(2) .h3-bg { background-image: url('../img/hanuman/hanuman.png'); }
+.h3-slide:nth-child(3) .h3-bg { background-image: url('../img/hanuman/forest.png'); }
+
+.h3-slide.is-active .h3-bg {
+  animation: h3-bg-zoom 9s ease-out forwards;
+}
+@keyframes h3-bg-zoom {
+  from { transform: scale(1); }
+  to   { transform: scale(1.08); }
+}
+
+/* Dark tint */
+.h3-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.22);
+  z-index: 1;
+}
+
+/* ─────────────────────────────────────────────
+   Overlay image layers  (sigma_layer equivalent)
+   All start hidden; animated in when slide is active
+───────────────────────────────────────────── */
+.h3-layer {
+  position: absolute;
+  pointer-events: none;
+  display: block;
+  opacity: 0;
+  filter: blur(10px);
+  transition: opacity 0.35s ease, filter 0.35s ease;
+}
+
+/* ── Slide 1 layers: bottom rock + top rock ── */
+.h3-layer-bottom {
+  bottom: 0; left: 0;
+  width: 100%; height: auto;
+  z-index: 5;
+}
+.h3-layer-top {
+  top: 0; left: 0;
+  width: 100%; height: auto;
+  z-index: 4;
+}
+
+/* ── Slide 2 layers: left rock + right rock ── */
+.h3-layer-left {
+  top: 0; left: 0;
+  width: 100%; height: auto;
+  z-index: 4;
+}
+.h3-layer-right {
+  top: 0; right: 0;
+  width: 100%; height: auto;
+  z-index: 4;
+}
+
+/* ── Slide 3 layer: Hanuman figure (bottom-left) ── */
+.h3-layer-hanuman {
+  bottom: 0; left: 0;
+  width: 1060px; height: auto;
+  z-index: 6;
+}
+
+/* ── Entrance keyframes ── */
+@keyframes h3-enter-bottom {
+  from { transform: translateY(100%);  filter: blur(10px); opacity: 0; }
+  to   { transform: translateY(0);     filter: blur(0);    opacity: 1; }
+}
+@keyframes h3-enter-top {
+  from { transform: translateY(-100%); filter: blur(10px); opacity: 0; }
+  to   { transform: translateY(0);     filter: blur(0);    opacity: 1; }
+}
+@keyframes h3-enter-left {
+  from { transform: translateX(-100%); filter: blur(10px); opacity: 0; }
+  to   { transform: translateX(0);     filter: blur(0);    opacity: 1; }
+}
+@keyframes h3-enter-right {
+  from { transform: translateX(100%);  filter: blur(10px); opacity: 0; }
+  to   { transform: translateX(0);     filter: blur(0);    opacity: 1; }
+}
+
+/* ── Breathe (loop) keyframes — preserve translation ── */
+@keyframes h3-breathe-y {
+  0%, 100% { transform: translateY(0) scale(1);    }
+  50%       { transform: translateY(0) scale(1.10); }
+}
+@keyframes h3-breathe-x {
+  0%, 100% { transform: translateX(0) scale(1);    }
+  50%       { transform: translateX(0) scale(1.05); }
+}
+
+/* ── Active-slide layer triggers ── */
+.h3-slide.is-active .h3-layer-bottom {
+  animation:
+    h3-enter-bottom  0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s forwards,
+    h3-breathe-y     9.5s linear 1.4s infinite;
+}
+.h3-slide.is-active .h3-layer-top {
+  animation:
+    h3-enter-top     0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s forwards,
+    h3-breathe-y     9.5s linear 1.4s infinite;
+}
+.h3-slide.is-active .h3-layer-left {
+  animation:
+    h3-enter-left    0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s forwards,
+    h3-breathe-x     9.5s linear 1.4s infinite;
+}
+.h3-slide.is-active .h3-layer-right {
+  animation:
+    h3-enter-right   0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s forwards,
+    h3-breathe-x     9.5s linear 1.4s infinite;
+}
+.h3-slide.is-active .h3-layer-hanuman {
+  animation:
+    h3-enter-left    0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s forwards,
+    h3-breathe-y     9.5s linear 1.4s infinite;
+}
+
+/* ─────────────────────────────────────────────
+   Content column  (subtitle + title + button)
+───────────────────────────────────────────── */
+.h3-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 0 50px;
+  opacity: 0;
+  filter: blur(10px);
+  transform: scale(0);
+  transition: opacity 0.35s ease, filter 0.35s ease;
+}
+.h3-slide.is-active .h3-content {
+  animation: h3-content-in 0.9s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.5s both;
+}
+@keyframes h3-content-in {
+  from { transform: scale(0);   filter: blur(10px); opacity: 0; }
+  to   { transform: scale(1);   filter: blur(0);    opacity: 1; }
+}
+
+/* Subtitle — Poppins 30px red */
+.h3-subtitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 30px;
+  line-height: 60px;
+  color: #7e4555;
+  margin: 0;
+  white-space: nowrap;
+}
+.h3-subtitle i {
+  font-size: 0.52em;
+  vertical-align: middle;
+  margin: 0 8px;
+  color: #7e4555;
+}
+
+/* Title — Lora 700 110px uppercase gold */
+.h3-title {
+  font-family: 'Lora', serif;
+  font-size: 110px;
+  font-weight: 700;
+  line-height: 1;
+  color: #fbc62f;
+  text-transform: uppercase;
+  margin: 10px 0 30px;
+}
+
+/* Button — gold border, fills on hover */
+.h3-btn {
+  display: inline-block;
+  font-family: 'Lora', serif;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 70px;
+  height: 70px;
+  padding: 0 45px;
+  color: #fbc62f;
+  background: transparent;
+  border: 1px solid rgba(251, 198, 47, 0.35);
+  border-radius: 5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+}
+.h3-btn:hover,
+.h3-btn:focus {
+  color: #0c0c0c;
+  background-color: #fbc62f;
+  border-color: #fbc62f;
+  text-decoration: none;
+}
+
+/* ─────────────────────────────────────────────
+   Navigation arrows
+───────────────────────────────────────────── */
+.h3-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  width: 54px;
+  height: 54px;
+  background: transparent;
+  border: 1px solid rgba(251, 198, 47, 0.40);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+  padding: 0;
+}
+.h3-nav:hover { background: rgba(251, 198, 47, 0.18); border-color: #fbc62f; }
+.h3-prev { left: 30px; }
+.h3-next { right: 30px; }
+
+/* CSS chevron arrows */
+.h3-prev::after,
+.h3-next::after {
+  content: '';
+  display: block;
+  width: 11px;
+  height: 11px;
+  border-color: #fbc62f;
+  border-style: solid;
+}
+.h3-prev::after {
+  border-width: 0 0 2px 2px;
+  transform: rotate(45deg) translate(2px, -2px);
+}
+.h3-next::after {
+  border-width: 2px 2px 0 0;
+  transform: rotate(45deg) translate(-2px, 2px);
+}
+
+/* Slide counter dots */
+.h3-dots {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  gap: 10px;
+}
+.h3-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(251, 198, 47, 0.35);
+  border: 1px solid rgba(251, 198, 47, 0.50);
+  cursor: pointer;
+  transition: background 0.25s ease;
+  padding: 0;
+}
+.h3-dot.is-active { background: #fbc62f; }
+
+/* ─────────────────────────────────────────────
+   Responsive
+───────────────────────────────────────────── */
+@media (max-width: 1199px) {
+  .h3-subtitle     { font-size: 24px; line-height: 49px; }
+  .h3-title        { font-size: 90px; }
+  .h3-btn          { font-size: 13px; line-height: 55px; height: 55px; padding: 0 37px; }
+  .h3-layer-hanuman { width: 990px; }
+}
+@media (max-width: 991px) {
+  .h3-subtitle      { font-size: 20px; line-height: 40px; }
+  .h3-title         { font-size: 68px; }
+  .h3-btn           { line-height: 50px; height: 50px; padding: 0 28px; }
+  .h3-content       { padding: 0 30px; }
+  .h3-layer-hanuman { width: 1139px; }
+  .h3-nav           { width: 44px; height: 44px; }
+  .h3-prev          { left: 15px; }
+  .h3-next          { right: 15px; }
+}
+@media (max-width: 767px) {
+  .h3-subtitle      { font-size: 18px; line-height: 50px; white-space: normal; }
+  .h3-title         { font-size: 41px; margin: 10px 0 20px; }
+  .h3-btn           { font-size: 12px; line-height: 40px; height: 40px; padding: 0 25px; }
+  .h3-content       { padding: 0 20px; }
+  .h3-layer-hanuman { width: 65%; }       /* scaled from 1060px fixed → percentage on mobile */
+  /* Rock layers: swap to height-driven so they fill the full slider height on narrow screens.
+     width:auto + overflow:hidden on parent clips them to their anchor edge (left/right),
+     reproducing the same cave-wall framing as desktop. */
+  .h3-layer-left,
+  .h3-layer-right   { width: auto; height: 100%; }
+  .h3-nav           { display: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .h3-bg, .h3-content, .h3-layer { animation: none !important; transition: none !important; }
+  .h3-layer { opacity: 1; filter: none; }
+  .h3-content { opacity: 1; filter: none; transform: scale(1); }
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif !important;
+}

@@ -1,0 +1,477 @@
+<title>Maharatri Assets Accessibility Assets Html Panel | Maharatri</title>
+    <meta name="description" content="Maharatri Maharatri Assets Accessibility Assets Html Panel page with responsive layout, sections, and UI components.">
+<!--
+  ╔══════════════════════════════════════════════════════════════════════════╗
+  ║  Accessibility Widget — Panel HTML Partial                               ║
+  ║  File: assets/accessibility/assets/html/panel.html                       ║
+  ║                                                                          ║
+  ║  Edit this file to customise panel content: labels, section text,        ║
+  ║  statement copy, contact details, feature names.                         ║
+  ║                                                                          ║
+  ║  IMPORTANT — keep all of the following intact, they are required by JS:  ║
+  ║    • All id="acw-*" attributes                                           ║
+  ║    • All data-toggle, data-filter, data-cursor, data-color-* attributes  ║
+  ║    • All data-action attributes on stepper buttons                       ║
+  ║    • All data-profile attributes                                         ║
+  ║    • All data-align attributes                                           ║
+  ║    • Class names: acw-profile-btn, acw-feature-card, acw-color-circle,   ║
+  ║      acw-step-btn, acw-align-btn, acw-step-val (with IDs)                ║
+  ║  Icons: SVG sprite injected by JS. Use <svg class="acw-icon">            ║
+  ║         <use href="#acw-icon-name"></use></svg>                          ║
+  ╚══════════════════════════════════════════════════════════════════════════╝
+-->
+
+<!-- ── Logo Trigger (FAB) ── -->
+<button class="acw-logo-trigger" id="acw-logo-trigger"
+        aria-label="Open Accessibility Widget"
+        aria-expanded="false"
+        aria-controls="acw-panel"
+        tabindex="0">
+  <svg class="acw-icon" aria-hidden="true"><use href="#acw-universal-access"></use></svg>
+  <span class="acw-logo-trigger-label">Access</span>
+</button>
+
+<!-- ── Show-Again Restore Button ── -->
+<button class="acw-show-again" id="acw-show-again"
+        aria-label="Show accessibility widget">
+  <svg class="acw-icon" aria-hidden="true"><use href="#acw-universal-access"></use></svg>
+</button>
+
+<!-- ── Overlay ── -->
+<div class="acw-overlay" id="acw-overlay" aria-hidden="true"></div>
+
+<!-- ══════════════════════════════════════════════
+     PANEL
+══════════════════════════════════════════════ -->
+<div class="acw-panel" id="acw-panel"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="acw-panel-title"
+     aria-hidden="true">
+
+  <!-- ── Header ── -->
+  <div class="acw-panel-header" role="banner">
+    <button class="acw-close" id="acw-close" aria-label="Close Accessibility Panel">
+      <svg class="acw-icon" aria-hidden="true"><use href="#acw-times"></use></svg>
+    </button>
+    <h2 class="acw-panel-title" id="acw-panel-title">Accessibility</h2>
+    <button class="acw-header-reset" id="acw-header-reset" aria-label="Reset all accessibility settings">
+      <svg class="acw-icon" aria-hidden="true"><use href="#acw-undo-alt"></use></svg>
+    </button>
+  </div>
+
+  <!-- ── Top Controls ── -->
+  <div class="acw-top-controls" role="toolbar" aria-label="Widget controls">
+    <button class="acw-top-btn acw-top-btn--reset" id="acw-reset"
+            aria-label="Reset all accessibility settings">
+      <svg class="acw-icon" aria-hidden="true"><use href="#acw-undo-alt"></use></svg>
+      <span>Reset Settings</span>
+    </button>
+    <button class="acw-top-btn acw-top-btn--statement" id="acw-statement-btn"
+            aria-label="View accessibility statement"
+            aria-haspopup="dialog">
+      <svg class="acw-icon" aria-hidden="true"><use href="#acw-eye"></use></svg>
+      <span>Statement</span>
+    </button>
+    <button class="acw-top-btn acw-top-btn--hide" id="acw-hide-btn"
+            aria-label="Close accessibility interface">
+      <svg class="acw-icon" aria-hidden="true"><use href="#acw-eye-slash"></use></svg>
+      <span>Hide Interface</span>
+    </button>
+  </div>
+
+  <!-- ── Panel Body ── -->
+  <div class="acw-panel-body">
+
+    <!-- ─────────────────────────────────────
+         Accessibility Profiles
+    ───────────────────────────────────── -->
+    <div class="acw-section-header">Choose the right accessibility profile</div>
+
+    <div class="acw-profiles-list" role="radiogroup" aria-label="Accessibility profiles">
+
+      <button class="acw-profile-btn" data-profile="seizure-safe"
+              role="radio" aria-checked="false" aria-label="Seizure Safe profile">
+        <span class="acw-toggle-switch" aria-hidden="true">
+          <span class="acw-toggle-track"><span class="acw-toggle-thumb"></span></span>
+        </span>
+        <span class="acw-profile-info">
+          <span class="acw-profile-name">Seizure Safe Profile</span>
+          <span class="acw-profile-desc">Clear flashes &amp; reduces color</span>
+        </span>
+        <span class="acw-profile-icon" aria-hidden="true">
+          <svg class="acw-icon"><use href="#acw-bolt"></use></svg>
+        </span>
+      </button>
+
+      <button class="acw-profile-btn" data-profile="vision-impaired"
+              role="radio" aria-checked="false" aria-label="Vision Impaired profile">
+        <span class="acw-toggle-switch" aria-hidden="true">
+          <span class="acw-toggle-track"><span class="acw-toggle-thumb"></span></span>
+        </span>
+        <span class="acw-profile-info">
+          <span class="acw-profile-name">Vision Impaired Profile</span>
+          <span class="acw-profile-desc">Enhances website's visuals</span>
+        </span>
+        <span class="acw-profile-icon" aria-hidden="true">
+          <svg class="acw-icon"><use href="#acw-eye"></use></svg>
+        </span>
+      </button>
+
+      <button class="acw-profile-btn" data-profile="adhd"
+              role="radio" aria-checked="false" aria-label="ADHD Friendly profile">
+        <span class="acw-toggle-switch" aria-hidden="true">
+          <span class="acw-toggle-track"><span class="acw-toggle-thumb"></span></span>
+        </span>
+        <span class="acw-profile-info">
+          <span class="acw-profile-name">ADHD Friendly Profile</span>
+          <span class="acw-profile-desc">More focus &amp; fewer distractions</span>
+        </span>
+        <span class="acw-profile-icon" aria-hidden="true">
+          <svg class="acw-icon"><use href="#acw-brain"></use></svg>
+        </span>
+      </button>
+
+      <button class="acw-profile-btn" data-profile="cognitive"
+              role="radio" aria-checked="false" aria-label="Cognitive profile">
+        <span class="acw-toggle-switch" aria-hidden="true">
+          <span class="acw-toggle-track"><span class="acw-toggle-thumb"></span></span>
+        </span>
+        <span class="acw-profile-info">
+          <span class="acw-profile-name">Cognitive Disability Profile</span>
+          <span class="acw-profile-desc">Assists reading &amp; focusing</span>
+        </span>
+        <span class="acw-profile-icon" aria-hidden="true">
+          <svg class="acw-icon"><use href="#acw-puzzle-piece"></use></svg>
+        </span>
+      </button>
+
+      <button class="acw-profile-btn" data-profile="keyboard-nav"
+              role="radio" aria-checked="false" aria-label="Keyboard Nav profile">
+        <span class="acw-toggle-switch" aria-hidden="true">
+          <span class="acw-toggle-track"><span class="acw-toggle-thumb"></span></span>
+        </span>
+        <span class="acw-profile-info">
+          <span class="acw-profile-name">Keyboard Navigation</span>
+          <span class="acw-profile-desc">Use website with the keyboard</span>
+        </span>
+        <span class="acw-profile-icon" aria-hidden="true">
+          <svg class="acw-icon"><use href="#acw-keyboard"></use></svg>
+        </span>
+      </button>
+
+      <button class="acw-profile-btn" data-profile="blind"
+              role="radio" aria-checked="false" aria-label="Blind Users profile">
+        <span class="acw-toggle-switch" aria-hidden="true">
+          <span class="acw-toggle-track"><span class="acw-toggle-thumb"></span></span>
+        </span>
+        <span class="acw-profile-info">
+          <span class="acw-profile-name">Blind Users (Screen Reader)</span>
+          <span class="acw-profile-desc">Optimize for screen-readers</span>
+        </span>
+        <span class="acw-profile-icon" aria-hidden="true">
+          <svg class="acw-icon"><use href="#acw-low-vision"></use></svg>
+        </span>
+      </button>
+
+    </div>
+
+    <!-- ─────────────────────────────────────
+         Content Adjustments
+    ───────────────────────────────────── -->
+    <div class="acw-section-header">Content Adjustments</div>
+
+    <div class="acw-feature-grid">
+
+      <!-- Content Scaling — card with embedded stepper -->
+      <div class="acw-feature-card acw-feature-card--stepper">
+        <svg class="acw-icon" aria-hidden="true"><use href="#acw-expand-arrows-alt"></use></svg>
+        <span class="acw-card-label">Content Scaling</span>
+        <div class="acw-card-stepper" role="group" aria-labelledby="acw-label-scale">
+          <button class="acw-step-btn" data-action="scale-down" aria-label="Decrease content scale">−</button>
+          <span class="acw-step-val" id="acw-scale-val" aria-live="polite" aria-atomic="true">Default</span>
+          <button class="acw-step-btn" data-action="scale-up" aria-label="Increase content scale">+</button>
+        </div>
+      </div>
+
+      <button class="acw-feature-card" data-toggle="readableFont"
+              role="switch" aria-checked="false" aria-label="Readable Font">
+        <svg class="acw-icon" aria-hidden="true"><use href="#acw-font"></use></svg>
+        <span class="acw-card-label">Readable Font</span>
+      </button>
+
+      <button class="acw-feature-card" data-toggle="highlightTitles"
+              role="switch" aria-checked="false" aria-label="Highlight Titles">
+        <svg class="acw-icon" aria-hidden="true"><use href="#acw-heading"></use></svg>
+        <span class="acw-card-label">Highlight Titles</span>
+      </button>
+
+      <button class="acw-feature-card" data-toggle="highlightLinks"
+              role="switch" aria-checked="false" aria-label="Highlight Links">
+        <svg class="acw-icon" aria-hidden="true"><use href="#acw-link"></use></svg>
+        <span class="acw-card-label">Highlight Links</span>
+      </button>
+
+      <button class="acw-feature-card" data-toggle="textMagnifier"
+              role="switch" aria-checked="false" aria-label="Text Magnifier">
+        <svg class="acw-icon" aria-hidden="true"><use href="#acw-search-plus"></use></svg>
+        <span class="acw-card-label">Text Magnifier</span>
+      </button>
+
+      <!-- Font Size — card with embedded stepper -->
+      <div class="acw-feature-card acw-feature-card--stepper">
+        <svg class="acw-icon" aria-hidden="true"><use href="#acw-text-height"></use></svg>
+        <span class="acw-card-label">Adjust Font Sizing</span>
+        <div class="acw-card-stepper" role="group" aria-labelledby="acw-label-font">
+          <button class="acw-step-btn" data-action="font-down" aria-label="Decrease font size">−</button>
+          <span class="acw-step-val" id="acw-font-val" aria-live="polite" aria-atomic="true">Default</span>
+          <button class="acw-step-btn" data-action="font-up" aria-label="Increase font size">+</button>
+        </div>
+      </div>
+
+      <!-- Line Height — card with embedded stepper -->
+      <div class="acw-feature-card acw-feature-card--stepper">
+        <svg class="acw-icon" aria-hidden="true"><use href="#acw-arrows-alt-v"></use></svg>
+        <span class="acw-card-label">Adjust Line Height</span>
+        <div class="acw-card-stepper" role="group" aria-labelledby="acw-label-lh">
+          <button class="acw-step-btn" data-action="lh-down" aria-label="Decrease line height">−</button>
+          <span class="acw-step-val" id="acw-lh-val" aria-live="polite" aria-atomic="true">Default</span>
+          <button class="acw-step-btn" data-action="lh-up" aria-label="Increase line height">+</button>
+        </div>
+      </div>
+
+      <!-- Letter Spacing — card with embedded stepper -->
+      <div class="acw-feature-card acw-feature-card--stepper">
+        <svg class="acw-icon" aria-hidden="true"><use href="#acw-text-width"></use></svg>
+        <span class="acw-card-label">Letter Spacing</span>
+        <div class="acw-card-stepper" role="group" aria-labelledby="acw-label-ls">
+          <button class="acw-step-btn" data-action="ls-down" aria-label="Decrease letter spacing">−</button>
+          <span class="acw-step-val" id="acw-ls-val" aria-live="polite" aria-atomic="true">Default</span>
+          <button class="acw-step-btn" data-action="ls-up" aria-label="Increase letter spacing">+</button>
+        </div>
+      </div>
+
+      <!-- Text Alignment — card with embedded alignment group -->
+      <div class="acw-feature-card acw-feature-card--align">
+        <svg class="acw-icon" aria-hidden="true"><use href="#acw-align-left"></use></svg>
+        <span class="acw-card-label" id="acw-label-align">Text Alignment</span>
+        <div class="acw-align-group" role="group" aria-labelledby="acw-label-align">
+          <button class="acw-align-btn" data-align="left"   aria-label="Align left"   aria-pressed="false"><svg class="acw-icon" aria-hidden="true"><use href="#acw-align-left"></use></svg></button>
+          <button class="acw-align-btn" data-align="center" aria-label="Align center" aria-pressed="false"><svg class="acw-icon" aria-hidden="true"><use href="#acw-align-center"></use></svg></button>
+          <button class="acw-align-btn" data-align="right"  aria-label="Align right"  aria-pressed="false"><svg class="acw-icon" aria-hidden="true"><use href="#acw-align-right"></use></svg></button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ─────────────────────────────────────
+         Color Adjustments
+    ───────────────────────────────────── -->
+    <div class="acw-section-header">Color Adjustments</div>
+
+    <!-- Filter tabs — full-width 3-column grid -->
+    <div class="acw-color-filter-tabs">
+
+      <button class="acw-feature-card" data-filter="dark-contrast"
+              role="switch" aria-checked="false" aria-label="Dark Contrast">
+        <svg class="acw-icon" aria-hidden="true"><use href="#acw-moon"></use></svg>
+        <span class="acw-card-label">Dark Contrast</span>
+      </button>
+
+      <button class="acw-feature-card" data-filter="light-contrast"
+              role="switch" aria-checked="false" aria-label="Light Contrast">
+        <svg class="acw-icon" aria-hidden="true"><use href="#acw-sun"></use></svg>
+        <span class="acw-card-label">Light Contrast</span>
+      </button>
+
+      <button class="acw-feature-card" data-filter="high-contrast"
+              role="switch" aria-checked="false" aria-label="High Contrast">
+        <svg class="acw-icon" aria-hidden="true"><use href="#acw-adjust"></use></svg>
+        <span class="acw-card-label">High Contrast</span>
+      </button>
+
+      <button class="acw-feature-card" data-filter="high-saturation"
+              role="switch" aria-checked="false" aria-label="High Saturation">
+        <svg class="acw-icon" aria-hidden="true"><use href="#acw-fire"></use></svg>
+        <span class="acw-card-label">High Saturation</span>
+      </button>
+
+      <button class="acw-feature-card" data-filter="low-saturation"
+              role="switch" aria-checked="false" aria-label="Low Saturation">
+        <svg class="acw-icon" aria-hidden="true"><use href="#acw-water"></use></svg>
+        <span class="acw-card-label">Low Saturation</span>
+      </button>
+
+      <button class="acw-feature-card" data-filter="monochrome"
+              role="switch" aria-checked="false" aria-label="Monochrome">
+        <svg class="acw-icon" aria-hidden="true"><use href="#acw-palette"></use></svg>
+        <span class="acw-card-label">Monochrome</span>
+      </button>
+
+    </div>
+
+    <!-- Swatch sections — full-width below filter tabs -->
+    <div class="acw-color-swatches">
+
+        <div class="acw-swatch-section">
+          <span class="acw-swatch-title">Adjust Text Colors</span>
+          <div class="acw-swatch-row">
+            <button class="acw-color-circle" data-color-key="textColor" data-color="#3b82f6" style="background:#3b82f6" aria-label="Set text color Blue"></button>
+            <button class="acw-color-circle" data-color-key="textColor" data-color="#9333ea" style="background:#9333ea" aria-label="Set text color Purple"></button>
+            <button class="acw-color-circle" data-color-key="textColor" data-color="#db2777" style="background:#db2777" aria-label="Set text color Pink"></button>
+            <button class="acw-color-circle" data-color-key="textColor" data-color="#dc2626" style="background:#dc2626" aria-label="Set text color Red"></button>
+            <button class="acw-color-circle" data-color-key="textColor" data-color="#ea580c" style="background:#ea580c" aria-label="Set text color Orange"></button>
+            <button class="acw-color-circle" data-color-key="textColor" data-color="#ca8a04" style="background:#ca8a04" aria-label="Set text color Yellow"></button>
+            <button class="acw-color-circle" data-color-key="textColor" data-color="#16a34a" style="background:#16a34a" aria-label="Set text color Green"></button>
+            <button class="acw-color-circle acw-color-circle--reset" data-color-key="textColor" data-color="reset" aria-label="Set text color Default"></button>
+          </div>
+        </div>
+
+        <div class="acw-swatch-section">
+          <span class="acw-swatch-title">Adjust Title Colors</span>
+          <div class="acw-swatch-row">
+            <button class="acw-color-circle" data-color-key="titleColor" data-color="#3b82f6" style="background:#3b82f6" aria-label="Set title color Blue"></button>
+            <button class="acw-color-circle" data-color-key="titleColor" data-color="#9333ea" style="background:#9333ea" aria-label="Set title color Purple"></button>
+            <button class="acw-color-circle" data-color-key="titleColor" data-color="#db2777" style="background:#db2777" aria-label="Set title color Pink"></button>
+            <button class="acw-color-circle" data-color-key="titleColor" data-color="#dc2626" style="background:#dc2626" aria-label="Set title color Red"></button>
+            <button class="acw-color-circle" data-color-key="titleColor" data-color="#ea580c" style="background:#ea580c" aria-label="Set title color Orange"></button>
+            <button class="acw-color-circle" data-color-key="titleColor" data-color="#ca8a04" style="background:#ca8a04" aria-label="Set title color Yellow"></button>
+            <button class="acw-color-circle" data-color-key="titleColor" data-color="#16a34a" style="background:#16a34a" aria-label="Set title color Green"></button>
+            <button class="acw-color-circle acw-color-circle--reset" data-color-key="titleColor" data-color="reset" aria-label="Set title color Default"></button>
+          </div>
+        </div>
+
+    </div>
+
+    <!-- ─────────────────────────────────────
+         Orientation Adjustments
+    ───────────────────────────────────── -->
+    <div class="acw-section-header">Orientation Adjustments</div>
+
+    <div class="acw-feature-grid acw-feature-grid--3col">
+
+      <button class="acw-feature-card" data-toggle="muteSounds"
+              role="switch" aria-checked="false" aria-label="Mute Sounds">
+        <svg class="acw-icon" aria-hidden="true"><use href="#acw-volume-mute"></use></svg>
+        <span class="acw-card-label">Mute Sounds</span>
+      </button>
+
+      <button class="acw-feature-card" data-toggle="hideImages"
+              role="switch" aria-checked="false" aria-label="Hide Images">
+        <svg class="acw-icon" aria-hidden="true"><use href="#acw-image"></use></svg>
+        <span class="acw-card-label">Hide Images</span>
+      </button>
+
+      <button class="acw-feature-card" data-toggle="readMode"
+              role="switch" aria-checked="false" aria-label="Read Mode">
+        <svg class="acw-icon" aria-hidden="true"><use href="#acw-book-open"></use></svg>
+        <span class="acw-card-label">Read Mode</span>
+      </button>
+
+      <button class="acw-feature-card" data-toggle="readingGuide"
+              role="switch" aria-checked="false" aria-label="Reading Guide">
+        <svg class="acw-icon" aria-hidden="true"><use href="#acw-grip-lines"></use></svg>
+        <span class="acw-card-label">Reading Guide</span>
+      </button>
+
+      <button class="acw-feature-card" data-toggle="stopAnimations"
+              role="switch" aria-checked="false" aria-label="Stop Animations">
+        <svg class="acw-icon" aria-hidden="true"><use href="#acw-ban"></use></svg>
+        <span class="acw-card-label">Stop Animations</span>
+      </button>
+
+      <button class="acw-feature-card" data-toggle="readingMask"
+              role="switch" aria-checked="false" aria-label="Reading Mask">
+        <svg class="acw-icon" aria-hidden="true"><use href="#acw-mask"></use></svg>
+        <span class="acw-card-label">Reading Mask</span>
+      </button>
+
+      <button class="acw-feature-card" data-toggle="highlightHover"
+              role="switch" aria-checked="false" aria-label="Highlight Hover">
+        <svg class="acw-icon" aria-hidden="true"><use href="#acw-mouse-pointer"></use></svg>
+        <span class="acw-card-label">Highlight Hover</span>
+      </button>
+
+      <button class="acw-feature-card" data-toggle="highlightFocus"
+              role="switch" aria-checked="false" aria-label="Highlight Focus">
+        <svg class="acw-icon" aria-hidden="true"><use href="#acw-crosshairs"></use></svg>
+        <span class="acw-card-label">Highlight Focus</span>
+      </button>
+
+      <button class="acw-feature-card" data-cursor="big-black"
+              role="switch" aria-checked="false" aria-label="Big Black Cursor">
+        <svg class="acw-icon" aria-hidden="true"><use href="#acw-mouse-pointer"></use></svg>
+        <span class="acw-card-label">Big Black Cursor</span>
+      </button>
+
+      <button class="acw-feature-card" data-cursor="big-white"
+              role="switch" aria-checked="false" aria-label="Big White Cursor">
+        <svg class="acw-icon" aria-hidden="true"><use href="#acw-hand-pointer"></use></svg>
+        <span class="acw-card-label">Big White Cursor</span>
+      </button>
+
+    </div>
+
+  </div><!-- end panel-body -->
+
+  <!-- ── Footer Bar ── -->
+  <div class="acw-panel-footer-bar">Accessibility Widget</div>
+
+</div><!-- end panel -->
+
+<!-- ══════════════════════════════════════════════
+     ACCESSIBILITY STATEMENT MODAL
+══════════════════════════════════════════════ -->
+<div class="acw-modal-overlay" id="acw-modal"
+     role="dialog" aria-modal="true"
+     aria-labelledby="acw-modal-title"
+     aria-hidden="true">
+  <div class="acw-modal-box">
+
+    <div class="acw-modal-header">
+      <h2 class="acw-modal-title" id="acw-modal-title">Accessibility Statement</h2>
+      <button class="acw-modal-close-btn" id="acw-modal-close" aria-label="Close accessibility statement">
+        <svg class="acw-icon" aria-hidden="true"><use href="#acw-times"></use></svg>
+      </button>
+    </div>
+
+    <div class="acw-modal-body">
+      <h3>Our Commitment</h3>
+      <p>We are committed to ensuring digital accessibility for people with disabilities.
+         We continually improve the user experience for everyone and apply relevant accessibility standards.</p>
+
+      <h3>Conformance Status</h3>
+      <p>We aim to conform to the Web Content Accessibility Guidelines (WCAG) 2.1 Level AA.</p>
+
+      <h3>Accessibility Features</h3>
+      <ul>
+        <li>Keyboard navigation support</li>
+        <li>Screen reader compatibility</li>
+        <li>Text resizing support</li>
+        <li>High contrast mode</li>
+        <li>Reduced motion support</li>
+        <li>Alt text for images</li>
+        <li>Semantic HTML structure</li>
+      </ul>
+
+      <h3>Known Limitations</h3>
+      <p>Some third-party content may not meet full accessibility standards.
+         We are working to resolve these issues or provide alternatives.</p>
+
+      <h3>Contact Us</h3>
+      <ul>
+        <li>Email: <a href="mailto:Example@example.com">Example@example.com</a></li>
+        <li>Phone: +1 (555) 000-0000</li>
+      </ul>
+      <p><em>This statement was last updated in 2026.</em></p>
+    </div>
+
+    <div class="acw-modal-footer">
+      <button class="acw-modal-ok-btn" id="acw-modal-ok">Close</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- Screen reader live region — do not remove -->
+<div class="acw-sr-only" id="acw-live" aria-live="polite" aria-atomic="true"></div>

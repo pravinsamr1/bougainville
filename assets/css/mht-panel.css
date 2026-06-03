@@ -1,0 +1,288 @@
+﻿/* =============================================================================
+   mht-panel.css â€” Maharatri Color Panel + Buy Widget
+   ============================================================================= */
+
+/* â”€â”€ Theme Color Panel (left side) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.mht-color-theme {
+  position: fixed;
+  top: 55%;
+  left: 0;
+  z-index: 9999;
+  transition: left .4s ease;
+}
+.mht-color-theme.mht-slide-out {
+  left: -210px;
+}
+
+.mht-theme-panel {
+  width: 210px;
+  background: #fff;
+  padding: 20px 22px 14px;
+  box-shadow: 2px 2px 14px rgba(0, 0, 0, .18);
+  border-radius: 0 0 10px 0;
+}
+.mht-theme-panel h5 {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--mht-primary);
+  margin: 0 0 14px;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+.mht-theme-panel p {
+  font-size: 11px;
+  color: #888;
+  margin: 12px 0 0;
+  line-height: 1.5;
+}
+
+/* Toggle tab */
+.mht-theme-switch {
+  position: absolute;
+  right: -46px;
+  top: 0;
+  width: 46px;
+  height: 46px;
+  background: var(--mht-primary);
+  color: #fff;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 0 10px 10px 0;
+  box-shadow: 2px 2px 8px rgba(0,0,0,.2);
+  transition: background .25s;
+}
+.mht-theme-switch:hover {
+  background: var(--mht-accent);
+}
+.mht-theme-switch i {
+  transition: transform .45s ease;
+}
+/* Panel open: gear sits flat */
+.mht-theme-switch i { transform: rotate(0deg); }
+/* Panel closed: gear rotates 45Â° â€” "settings locked" cue */
+.mht-color-theme.mht-slide-out .mht-theme-switch i { transform: rotate(45deg); }
+
+/* Colour swatches */
+.mht-theme-ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.mht-each-color {
+  display: block;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition: outline-color .2s, transform .2s;
+}
+.mht-each-color:hover {
+  transform: scale(1.15);
+}
+.mht-each-color.mht-active {
+  outline-color: #333;
+  transform: scale(1.1);
+}
+
+/* â”€â”€ Buy Widget (right side) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.mht-buy-widget {
+  position: fixed;
+  top: 55%;
+  right: -178px;
+  z-index: 9999;
+  transition: right .4s ease;
+}
+.mht-buy-widget.mht-buy-open {
+  right: 0;
+}
+
+/* Panel is now an <a> â€” entire area is the link. */
+.mht-buy-panel {
+  display: block;
+  width: 178px;
+  background: var(--mht-primary);
+  padding: 18px 16px;
+  box-shadow: -2px 2px 14px rgba(0, 0, 0, .18);
+  border-radius: 0;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background .3s;
+}
+.mht-buy-panel:hover {
+  background: var(--mht-accent);
+}
+.mht-buy-panel p {
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+/* â”€â”€ Buy tab â€” prominent + animated â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.mht-buy-switch {
+  position: absolute;
+  left: -58px;
+  top: 0;
+  width: 58px;
+  height: 64px;
+  background: var(--mht-primary);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+  border-radius: 0;
+  animation: mht-buy-tab-glow 2.8s ease-in-out infinite;
+  transition: background .25s;
+}
+.mht-buy-switch::after {
+  content: 'BUY';
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  font-family: sans-serif;
+  line-height: 1;
+}
+.mht-buy-switch i {
+  font-size: 22px;
+  animation: mht-bag-shake 4s ease-in-out infinite;
+}
+/* Pause both animations on hover for clean interaction */
+.mht-buy-switch:hover {
+  background: var(--mht-accent);
+  animation: none;
+}
+.mht-buy-switch:hover i {
+  animation: none;
+}
+
+/* â”€â”€ Attention animations â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+@keyframes mht-buy-tab-glow {
+  0%, 100% { box-shadow: -3px 0 10px rgba(0,0,0,.25); }
+  50%       { box-shadow: -4px 0 22px rgba(0,0,0,.45),
+                          -2px 0 40px rgba(0,0,0,.18); }
+}
+
+/* Periodic bag shake: still for 2.8s, then 3 quick wiggles */
+@keyframes mht-bag-shake {
+  0%, 70%   { transform: rotate(0deg) scale(1);    }
+  74%        { transform: rotate(-18deg) scale(1.1); }
+  78%        { transform: rotate(16deg)  scale(1.1); }
+  82%        { transform: rotate(-12deg) scale(1.05);}
+  86%        { transform: rotate(8deg)   scale(1.05);}
+  90%        { transform: rotate(-4deg)  scale(1);   }
+  94%, 100%  { transform: rotate(0deg)  scale(1);   }
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .mht-buy-switch,
+  .mht-buy-switch i { animation: none; }
+}
+
+/* â”€â”€ Floating WhatsApp Button (bottom-left) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+.mht-whatsapp-btn {
+  position: fixed;
+  bottom: 28px;
+  left: 28px;
+  width: 56px;
+  height: 56px;
+  background: #25D366;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9998;
+  box-shadow: 0 4px 16px rgba(37, 211, 102, .45);
+  animation: mht-wa-pulse 2.5s ease-in-out infinite;
+  text-decoration: none;
+  transition: transform .2s;
+}
+.mht-whatsapp-btn:hover {
+  transform: scale(1.12);
+  animation: none;
+  box-shadow: 0 6px 20px rgba(37, 211, 102, .6);
+}
+.mht-whatsapp-btn i {
+  font-size: 28px;
+  color: #fff;
+  line-height: 1;
+}
+
+/* Disabled state */
+.mht-whatsapp-btn.mht-wa-disabled {
+  background: #9e9e9e;
+  animation: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .18);
+  cursor: not-allowed;
+}
+.mht-whatsapp-btn.mht-wa-disabled:hover {
+  background: #9e9e9e;
+  transform: none;
+  animation: none;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, .18);
+}
+
+/* "Not configured" notice â€” slides up above the button on click */
+.mht-wa-notice {
+  position: fixed;
+  bottom: 96px;
+  left: 16px;
+  background: #1a1a1a;
+  color: #fff;
+  font-size: 12px;
+  font-family: sans-serif;
+  padding: 10px 14px;
+  border-radius: 8px;
+  max-width: 230px;
+  line-height: 1.55;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, .35);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .3s ease, transform .3s ease;
+  pointer-events: none;
+  z-index: 10001;
+}
+.mht-wa-notice::after {            /* arrow pointing down toward the button */
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 24px;
+  width: 12px;
+  height: 12px;
+  background: #1a1a1a;
+  transform: rotate(45deg);
+}
+.mht-wa-notice.mht-wa-show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@keyframes mht-wa-pulse {
+  0%, 100% { box-shadow: 0 4px 16px rgba(37, 211, 102, .45); }
+  50%       { box-shadow: 0 4px 24px rgba(37, 211, 102, .75),
+                          0 0 0 8px rgba(37, 211, 102, .12); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mht-whatsapp-btn { animation: none; }
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif !important;
+}

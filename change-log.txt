@@ -1,0 +1,187 @@
+CHANGE LOG - Maharatri preview
+Updated: 2026-02-27
+================================================================================
+
+v1.1.0 - Bootstrap Upgrade (Zero Visual Change)
+  * Bootstrap 5.0.2 -> 5.3.3
+  * Popper 2.9.2 -> @popperjs/core 2.11.8
+  * data-toggle="tooltip" -> data-bs-toggle="tooltip" (26 HTML files)
+  * bootstrap-compat.css added (BS5 minor-version compat shim)
+
+v1.2.0 - UX & Feature Additions
+  * Color theme switcher - 8 warm temple themes via CSS variables (26 HTML files)
+  * Buy Template widget - floating panel, ThemeForest link (26 HTML files)
+  * WhatsApp button - fixed bottom-left, disabled by default (26 HTML files)
+  * main.js tooltip init rewritten to BS5 native API
+
+================================================================================
+Updated: 2026-03-10
+================================================================================
+
+v1.3.0 - Krishna & Hanuman Home Variants
+
+  NEW PAGES (4)
+  * krishna.html  - Krishna home variant; kr-hero dual slider, gods ticker strips,
+                    img-group-3 dense image overlay, kr-about-img counter panel,
+                    holi/services, donations, puja, volunteers, broadcast, blog
+  * hanuman.html  - Hanuman home variant; 3 independent hero sliders (parallax),
+                    about, services, donation, testimonials, puja, CTA sections
+  * hanuman-2.html - Bajrangabali cave hero (sr-hero); full V1.1 header/footer shell
+  * hanuman-3.html - Rock-frame 3-slide carousel hero (h3-hero); full V1.1 shell
+
+  NEW CSS (2 page-scoped files - load only on their respective pages)
+  * assets/css/krishna.css
+      - kr-hero slider styles (dual panel, caption, controls)
+      - img-group-3 component (two-image dense overlay with accent squares)
+      - kr-about-img / kr-about-counter (image col + pinned accent counter box)
+      - kr-gods infinite ticker strip (@keyframes kr-gods-scroll)
+      - sigma_service { border-radius: 0 } scoped override
+      - sigma_btn-custom colour overrides scoped to krishna.html
+      - @font-face blocks removed (V1.1 style.css handles Poppins + Lora)
+  * assets/css/hanuman.css
+      - hanuman-s1- / hanuman-s2- / hanuman-s3- hero slider styles
+      - .hanuman-svc-* service card colour classes
+      - sr-* section styles (merged from hanuman-2.html inline <style>)
+      - h3-* section styles (merged from hanuman-3.html inline <style>)
+      - :root { --mht-subtitle: #7e4555 } fallback (not in V1.1 color files)
+      - All url() paths corrected to relative ../img/hanuman/ for CSS location
+
+  NEW JS (2 files - null-guarded for safe multi-page loading)
+  * assets/js/krishna.js
+      - initKrSlider() factory for #kr-hero and #kr-hero-2
+      - if (!hero) return guard prevents errors on non-Krishna pages
+  * assets/js/hanuman.js
+      - Slick testimonial init (length-checked)
+      - Slider 1 IIFE with null guard on .hanuman-s1-hero
+      - Slider 3 parallax IIFE with null guard on hero/bg elements
+      - h3 rock-frame carousel IIFE (appended) with null guard on .h3-hero
+      - All guards prevent TypeError on pages missing their target DOM nodes
+
+  NEW IMAGES
+  * assets/img/banner/s1.jpg, s2.jpg, s3.jpg, s4.jpg  (Krishna hero banners)
+  * assets/img/hanuman/  (full folder - 12 assets)
+      jaipur1.png, hanuman.png, forest.png, cave1.jpg, hanuman-preview.png,
+      rock-bottom-1.png, rock-top.png, left-rock.png, right-rock.png,
+      top-rock2-min.png, bottom-rock2-min.png, banner.png
+
+  NEW COLOR THEMES (3)
+  * assets/css/theme-colors/color9.css  - Krishna Teal
+      --mht-primary: #253d46  |  --mht-accent: #ae4427
+  * assets/css/theme-colors/color10.css - Hanuman Gold
+      --mht-primary: #5c3e0a  |  --mht-accent: #fbc62f  |  --mht-subtitle: #7e4555
+  * assets/css/theme-colors/color11.css - Lotus Rose
+      --mht-primary: #7a2e5a  |  --mht-accent: #e07b9a
+
+  COLOR SWITCHER DEFAULTS
+  * krishna.html  defaults to color9  (Krishna Teal)
+  * hanuman.html  defaults to color10 (Hanuman Gold)
+  * hanuman-2.html / hanuman-3.html default to color10 (Hanuman Gold)
+
+  NAVIGATION UPDATED (27 existing pages)
+  * Home dropdown extended with two new top-level items in desktop navbar
+    and mobile aside-left on all 27 existing V1.1 pages:
+      - Hanuman  (parent link -> hanuman.html)
+          sub-menu: Hanuman / Hanuman 2 / Hanuman 3
+      - Krishna  (direct link -> krishna.html)
+  * Pages updated: index.html, home-v2.html, home-v3.html +
+    all 24 inner pages (about, services, events, shop, blog, etc.)
+
+  COLOR SWITCHER UPDATED (27 existing pages)
+  * 3 new swatches appended after color8 in all 27 existing pages:
+      color9  swatch bg #253d46  title "Krishna Teal"
+      color10 swatch bg #fbc62f  title "Hanuman Gold"
+      color11 swatch bg #7a2e5a  title "Lotus Rose"
+
+  BUG FIXES
+  * hanuman.js - TypeError on pages missing slider DOM nodes resolved;
+    null guards added to all 3 IIFEs (Slider 1, Slider 3, h3 carousel)
+  * hanuman.js - Slick init on missing .sigma_testimonial-slider guarded
+    with jQuery length check
+  * hanuman-2.html - corrected background image path from assets/img/banner.png
+    to assets/img/hanuman/banner.png
+
+================================================================================
+Updated: 2026-03-10
+================================================================================
+
+v1.4.0 - ARIA Accessibility Pass
+
+  CRITICAL FIXES
+
+  Skip Link (all 31 HTML pages)
+  * <a class="skip-link" href="#main-content"> inserted as first child of <body>
+  * .skip-link CSS added to style.css: visually hidden until focused, then slides
+    in from top; uses var(--mht-accent) background; z-index 99999
+
+  Focus Indicators (style.css)
+  * Replaced bare outline:none on interactive elements with visible ring fallback:
+      a:focus                              -> box-shadow 3px accent ring + radius 2px
+      .close-btn:focus                     -> box-shadow 3px accent ring
+      .sigma_btn-custom:focus              -> box-shadow 3px accent ring
+      .sigma_search-adv-input button:focus -> inset white ring
+      .sigma_search-form-wrapper input:focus -> accent-tinted bottom border
+      .sigma_search-form-wrapper button:focus -> white ring
+      footer newsletter button/input:focus -> white ring
+  * All rings use rgba(var(--mht-accent-rgb), 0.35-0.45) so they adapt
+    to the active color theme automatically
+
+  Slider Controls (main.js)
+  * All .slider-prev / .slider-next custom arrow elements receive:
+      role="button", aria-label="Previous/Next slide", tabindex="0"
+  * .slick-prev / .slick-next (Slick-generated) also labeled
+  * Keyboard Enter/Space activates custom arrow clicks
+
+  MAJOR FIXES
+
+  Main Landmark (all 31 HTML pages)
+  * <main id="main-content"> inserted immediately after </header>
+  * </main> inserted immediately before <footer class="sigma_footer">
+  * Provides screen reader landmark + skip-link target on every page
+
+  Social / Icon-Only Links (main.js — runtime)
+  * JS scans all <a> elements containing only an <i> icon with no text
+  * Maps Font Awesome class to human-readable label and sets aria-label:
+      fa-facebook -> Facebook, fa-twitter -> Twitter,
+      fa-instagram -> Instagram, fa-youtube -> YouTube,
+      fa-linkedin -> LinkedIn, fa-pinterest -> Pinterest,
+      fa-vimeo -> Vimeo, fa-tiktok -> TikTok, fa-google -> Google,
+      fa-whatsapp -> WhatsApp
+
+  Other Icon Controls (main.js — runtime)
+  * .sigma_search-trigger  -> aria-label="Open search"
+  * .sigma_cart-trigger    -> aria-label="Open cart"
+  * .close-btn             -> aria-label="Close", role="button", tabindex="0"
+  * .trigger-volunteers-socials -> aria-label="Show social links"
+  * Search form input      -> aria-label="Search"
+  * Footer newsletter input -> aria-label="Enter your email address"
+
+  Form Input Labels (4 HTML files)
+  * contact-us.html   - aria-label + id added to all 4 inputs/textarea
+  * blog-details.html - aria-label added to name/email/website comment inputs
+  * event-details.html - aria-label added to name/email/website inputs
+  * holi-details.html - aria-label added to all name/email inputs (9 fields)
+
+  Offcanvas Aside ARIA (main.js)
+  * Both asides get aria-hidden="true" on page load (closed state)
+  * Each toggle trigger gets role="button", aria-expanded="false"
+  * On every open/close click: aria-hidden and aria-expanded sync to state
+  * Escape key closes open asides and search overlay
+
+  Color Switcher & Buy Widget (main.js — runtime)
+  * .mht-theme-switch -> role="button", tabindex="0",
+      aria-label="Open theme colors panel", aria-expanded synced on toggle
+  * .mht-buy-switch   -> role="button", tabindex="0",
+      aria-label="Buy this template"
+  * Each .mht-each-color swatch -> role="radio", aria-label from title attr,
+      aria-checked synced on click
+  * Enter/Space keyboard activation added for all switcher controls
+
+  Quick-View Modal (main.js — runtime)
+  * #quickViewModal gets aria-modal="true" and aria-label="Quick view product"
+  * Modal .close-btn gets aria-label="Close quick view"
+
+  Quantity Spinners (main.js — runtime)
+  * .qty-subtract -> role="button", tabindex="0", aria-label="Decrease quantity"
+  * .qty-add      -> role="button", tabindex="0", aria-label="Increase quantity"
+  * qty text input -> aria-label="Quantity"
+  * Enter/Space keyboard activation added

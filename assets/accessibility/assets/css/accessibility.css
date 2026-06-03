@@ -1,0 +1,891 @@
+/*-----------------------------------------------------------------------------------
+    Accessibility Widget: Sigma — Drop-In Module
+    Version: 3.3 — Correct Isolation
+
+    Isolation strategy (two-tier specificity):
+      Tier 1 — .acw-wrap button/span/a/etc.  { all: unset }  → (0,1,1)
+               Strips EVERY template rule from element types inside the widget.
+      Tier 2 — .acw-wrap .acw-class-name     { display:flex… } → (0,2,0)
+               Widget class rules ALWAYS beat the element resets because
+               (0,2,0) > (0,1,1). Add the widget to any template: nothing breaks.
+
+    Reading guide / mask / magnifier are appended to document.body (not inside
+    .acw-wrap) so those rules have no prefix — that is intentional.
+-----------------------------------------------------------------------------------*/
+
+/* ==========================================================================
+   00. LOCAL FONT FACES
+   ========================================================================== */
+@font-face {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('../fonts/roboto.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+                 U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+                 U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('../fonts/oswald.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+                 U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122,
+                 U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+/* ==========================================================================
+   01. DESIGN TOKENS — set on .acw-wrap so children can inherit
+   ========================================================================== */
+.acw-wrap {
+  /* Navy palette */
+  --acw-navy:        #1a2764;
+  --acw-navy-dark:   #131e4f;
+  --acw-navy-light:  #2d3d82;
+
+  /* Text */
+  --acw-text:        #111827;
+  --acw-text-sub:    #374151;
+  --acw-text-muted:  #6b7280;
+
+  /* Surfaces */
+  --acw-bg:          #ffffff;
+  --acw-card-bg:     #f9fafb;
+  --acw-border:      #e5e7eb;
+  --acw-border-row:  #f0f2f8;
+
+  /* Shadows */
+  --acw-shadow-panel: 4px 0 32px rgba(0,0,0,0.14);
+
+  /* Radii */
+  --acw-radius:      10px;
+  --acw-radius-sm:   6px;
+  --acw-radius-pill: 50px;
+
+  /* Sizing */
+  --acw-panel-w:     390px;
+  --acw-fab-size:    56px;
+
+  /* Motion */
+  --acw-transition:  all 0.18s ease;
+  --acw-tab-slide:   0.36s cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Inheritance root — all: unset on children will inherit these */
+  font-family: 'Roboto', Arial, sans-serif;
+  color: var(--acw-text);
+  line-height: 1.5;
+}
+
+/* ==========================================================================
+   02. SCOPED RESET — strips every template property
+       Specificity (0,1,1): widget class rules below are (0,2,0) and WILL win
+   ========================================================================== */
+.acw-wrap *,
+.acw-wrap *::before,
+.acw-wrap *::after {
+  box-sizing: border-box;
+}
+
+.acw-wrap button        { all: unset; box-sizing: border-box; cursor: pointer; }
+.acw-wrap a             { all: unset; cursor: pointer; }
+.acw-wrap h1,
+.acw-wrap h2,
+.acw-wrap h3,
+.acw-wrap h4,
+.acw-wrap h5,
+.acw-wrap h6            { all: unset; }
+.acw-wrap p             { all: unset; }
+.acw-wrap ul,
+.acw-wrap ol            { all: unset; }
+.acw-wrap li            { all: unset; }
+.acw-wrap span          { all: unset; display: inline; box-sizing: border-box; }
+.acw-wrap input,
+.acw-wrap select,
+.acw-wrap textarea      { all: unset; box-sizing: border-box; }
+.acw-wrap img           { all: unset; display: block; max-width: 100%; }
+
+/* SVG icon system — (0,2,0) beats element reset */
+.acw-wrap .acw-icon {
+  display: inline-block;
+  width: 1em; height: 1em;
+  fill: currentColor;
+  vertical-align: middle;
+  flex-shrink: 0;
+  overflow: visible;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   03. LOGO TRIGGER — FAB circle, fixed bottom-left
+   ========================================================================== */
+.acw-wrap .acw-logo-trigger {
+  position: fixed;
+  bottom: 28px;
+  left: 20px;
+  z-index: 99999;
+  width: var(--acw-fab-size);
+  height: var(--acw-fab-size);
+  border-radius: 50%;
+  background: var(--acw-navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 18px rgba(26,39,100,0.38), 0 2px 6px rgba(0,0,0,0.14);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.acw-wrap .acw-logo-trigger:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 26px rgba(26,39,100,0.52);
+}
+.acw-wrap .acw-logo-trigger:focus {
+  outline: 3px solid rgba(26,39,100,0.4);
+  outline-offset: 3px;
+}
+.acw-wrap .acw-logo-trigger .acw-icon { width: 26px; height: 26px; color: #fff; }
+.acw-wrap .acw-logo-trigger-label     { display: none; }
+.acw-wrap.acw-panel-open .acw-logo-trigger { display: none !important; }
+.acw-wrap.acw-hidden    .acw-logo-trigger  { display: none !important; }
+
+/* ==========================================================================
+   04. SHOW-AGAIN RESTORE BUTTON
+   ========================================================================== */
+.acw-wrap .acw-show-again {
+  position: fixed;
+  left: 20px; bottom: 28px;
+  z-index: 99999;
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: var(--acw-navy);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(26,39,100,0.35);
+  transition: var(--acw-transition);
+}
+.acw-wrap.acw-hidden .acw-show-again    { display: flex; }
+.acw-wrap .acw-show-again:hover         { transform: scale(1.1); }
+.acw-wrap .acw-show-again .acw-icon     { width: 18px; height: 18px; color: #fff; }
+
+/* ==========================================================================
+   05. OVERLAY
+   ========================================================================== */
+.acw-wrap .acw-overlay {
+  position: fixed; inset: 0; z-index: 99998;
+  background: rgba(15,20,50,0.35);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.acw-wrap .acw-overlay.acw-visible { opacity: 1; pointer-events: auto; }
+
+/* ==========================================================================
+   06. PANEL CONTAINER
+   ========================================================================== */
+.acw-wrap .acw-panel {
+  position: fixed; top: 0; left: 0;
+  z-index: 99999;
+  width: var(--acw-panel-w); max-width: 100vw; height: 100vh;
+  background: var(--acw-bg);
+  box-shadow: var(--acw-shadow-panel);
+  transform: translateX(-100%);
+  transition: transform var(--acw-tab-slide);
+  display: flex; flex-direction: column; overflow: hidden;
+}
+.acw-wrap .acw-panel.acw-open { transform: translateX(0); }
+
+/* ==========================================================================
+   07. PANEL HEADER — dark navy bar
+   ========================================================================== */
+.acw-wrap .acw-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 14px;
+  height: 62px;
+  flex-shrink: 0;
+  background: var(--acw-navy);
+}
+.acw-wrap .acw-panel-title {
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  flex: 1;
+  text-align: center;
+  line-height: 1;
+  display: block;
+}
+.acw-wrap .acw-close,
+.acw-wrap .acw-header-reset {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  color: rgba(255,255,255,0.85);
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+.acw-wrap .acw-close:hover,
+.acw-wrap .acw-header-reset:hover {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+}
+.acw-wrap .acw-close:hover       { transform: rotate(90deg); }
+.acw-wrap .acw-close:focus,
+.acw-wrap .acw-header-reset:focus {
+  outline: 2px solid rgba(255,255,255,0.6);
+  outline-offset: 1px;
+}
+.acw-wrap .acw-close .acw-icon,
+.acw-wrap .acw-header-reset .acw-icon { width: 14px; height: 14px; }
+
+/* ==========================================================================
+   08. TOP CONTROLS — three outline pill buttons
+   ========================================================================== */
+.acw-wrap .acw-top-controls {
+  display: flex;
+  gap: 8px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--acw-border);
+  flex-shrink: 0;
+  background: var(--acw-bg);
+}
+.acw-wrap .acw-top-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 8px 6px;
+  min-height: 36px;
+  border: 1.5px solid var(--acw-border);
+  border-radius: var(--acw-radius-pill);
+  background: var(--acw-bg);
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--acw-text-sub);
+  cursor: pointer;
+  transition: var(--acw-transition);
+  white-space: nowrap;
+  line-height: 1.2;
+}
+.acw-wrap .acw-top-btn .acw-icon {
+  width: 11px; height: 11px;
+  color: var(--acw-text-muted);
+  flex-shrink: 0;
+  transition: color 0.15s;
+}
+/* Restore inline display for spans inside top buttons */
+.acw-wrap .acw-top-btn span {
+  display: inline;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  color: inherit;
+  line-height: inherit;
+}
+.acw-wrap .acw-top-btn:hover {
+  border-color: var(--acw-navy);
+  color: var(--acw-navy);
+  background: rgba(26,39,100,0.04);
+}
+.acw-wrap .acw-top-btn:hover .acw-icon { color: var(--acw-navy); }
+.acw-wrap .acw-top-btn:focus { outline: 2px solid var(--acw-navy); outline-offset: 2px; }
+
+/* ==========================================================================
+   09. PANEL BODY — scrollable content area
+   ========================================================================== */
+.acw-wrap .acw-panel-body {
+  flex: 1;
+  overflow-y: auto; overflow-x: hidden;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  background: var(--acw-bg);
+  padding-bottom: 8px;
+}
+.acw-wrap .acw-panel-body::-webkit-scrollbar       { width: 4px; }
+.acw-wrap .acw-panel-body::-webkit-scrollbar-track  { background: transparent; }
+.acw-wrap .acw-panel-body::-webkit-scrollbar-thumb  {
+  background: rgba(26,39,100,0.15);
+  border-radius: 4px;
+}
+
+/* ==========================================================================
+   10. SECTION HEADERS
+   ========================================================================== */
+.acw-wrap .acw-section-header {
+  padding: 18px 16px 10px;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--acw-text);
+  line-height: 1.3;
+  display: block;
+}
+
+/* ==========================================================================
+   11. PROFILES — toggle-row list
+   ========================================================================== */
+.acw-wrap .acw-profiles-list {
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--acw-border);
+}
+.acw-wrap .acw-profile-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 16px;
+  border-bottom: 1px solid var(--acw-border-row);
+  background: var(--acw-bg);
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.15s ease;
+}
+.acw-wrap .acw-profile-btn:hover  { background: #f8f9ff; }
+.acw-wrap .acw-profile-btn:focus  { outline: 2px solid var(--acw-navy); outline-offset: -2px; }
+
+/* Toggle switch */
+.acw-wrap .acw-toggle-switch {
+  flex-shrink: 0;
+  display: inline-flex;
+}
+.acw-wrap .acw-toggle-track {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  border-radius: 12px;
+  background: #d1d5db;
+  transition: background 0.2s ease;
+  display: block;
+}
+.acw-wrap .acw-toggle-thumb {
+  position: absolute;
+  top: 3px; left: 3px;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.22);
+  transition: transform 0.2s ease;
+  display: block;
+}
+.acw-wrap .acw-profile-btn.acw-active .acw-toggle-track { background: var(--acw-navy); }
+.acw-wrap .acw-profile-btn.acw-active .acw-toggle-thumb { transform: translateX(20px); }
+
+/* Profile text block */
+.acw-wrap .acw-profile-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.acw-wrap .acw-profile-name {
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--acw-text);
+  line-height: 1.3;
+  display: block;
+}
+.acw-wrap .acw-profile-desc {
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 11.5px;
+  font-weight: 400;
+  color: var(--acw-text-muted);
+  line-height: 1.3;
+  display: block;
+}
+
+/* Right icon */
+.acw-wrap .acw-profile-icon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--acw-text-muted);
+}
+.acw-wrap .acw-profile-icon .acw-icon        { width: 20px; height: 20px; }
+.acw-wrap .acw-profile-btn.acw-active .acw-profile-icon { color: var(--acw-navy); }
+
+/* ==========================================================================
+   12. FEATURE CARDS — 2-col grid (default), content + orientation sections
+   ========================================================================== */
+.acw-wrap .acw-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding: 4px 14px 16px;
+}
+.acw-wrap .acw-feature-grid.acw-feature-grid--3col {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+/* Base card — used by toggle buttons AND stepper/align divs */
+.acw-wrap .acw-feature-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 10px 14px;
+  border: 1.5px solid var(--acw-border);
+  border-radius: var(--acw-radius);
+  background: var(--acw-card-bg);
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--acw-text-sub);
+  text-align: center;
+  cursor: pointer;
+  min-height: 82px;
+  transition: var(--acw-transition);
+  line-height: 1.3;
+}
+.acw-wrap .acw-feature-grid--3col .acw-feature-card {
+  min-height: 74px;
+  padding: 13px 6px 11px;
+  font-size: 10px;
+  gap: 6px;
+}
+.acw-wrap .acw-feature-card .acw-icon {
+  width: 22px; height: 22px;
+  color: var(--acw-text-muted);
+  transition: color 0.15s;
+}
+.acw-wrap .acw-feature-grid--3col .acw-feature-card .acw-icon {
+  width: 20px; height: 20px;
+}
+.acw-wrap .acw-card-label {
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: inherit;
+  font-weight: 600;
+  color: inherit;
+  line-height: 1.3;
+  display: block;
+  text-align: center;
+}
+.acw-wrap .acw-feature-card:hover {
+  border-color: var(--acw-navy);
+  background: #f0f4ff;
+  color: var(--acw-navy);
+}
+.acw-wrap .acw-feature-card:hover .acw-icon { color: var(--acw-navy); }
+.acw-wrap .acw-feature-card:focus {
+  outline: 2px solid var(--acw-navy);
+  outline-offset: 2px;
+}
+.acw-wrap .acw-feature-card.acw-active {
+  border-color: var(--acw-navy);
+  background: var(--acw-navy);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(26,39,100,0.25);
+}
+.acw-wrap .acw-feature-card.acw-active .acw-icon      { color: #fff; }
+.acw-wrap .acw-feature-card.acw-active .acw-card-label { color: #fff; }
+
+/* ── Stepper card (div) — not clickable, shows embedded stepper ── */
+.acw-wrap .acw-feature-card.acw-feature-card--stepper {
+  cursor: default;
+  justify-content: flex-start;
+  padding-top: 14px;
+  gap: 6px;
+}
+.acw-wrap .acw-feature-card.acw-feature-card--stepper:hover {
+  border-color: var(--acw-border);
+  background: var(--acw-card-bg);
+  color: var(--acw-text-sub);
+}
+.acw-wrap .acw-feature-card.acw-feature-card--stepper:hover .acw-icon {
+  color: var(--acw-text-muted);
+}
+.acw-wrap .acw-card-stepper {
+  display: flex;
+  align-items: center;
+  border: 1.5px solid var(--acw-border);
+  border-radius: var(--acw-radius-sm);
+  overflow: hidden;
+  background: var(--acw-bg);
+  margin-top: 2px;
+  width: 100%;
+}
+.acw-wrap .acw-card-stepper .acw-step-btn {
+  width: 30px; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  background: #f3f4f6;
+  color: var(--acw-text-sub);
+  font-size: 16px; font-weight: 400; line-height: 1;
+  cursor: pointer; flex-shrink: 0;
+  transition: background 0.15s ease, color 0.15s ease;
+  font-family: 'Roboto', Arial, sans-serif;
+}
+.acw-wrap .acw-card-stepper .acw-step-btn:hover {
+  background: var(--acw-navy);
+  color: #fff;
+}
+.acw-wrap .acw-card-stepper .acw-step-btn:focus {
+  outline: 2px solid var(--acw-navy);
+  outline-offset: -2px;
+}
+.acw-wrap .acw-card-stepper .acw-step-val {
+  flex: 1;
+  text-align: center;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 11px; font-weight: 600;
+  color: var(--acw-text);
+  background: var(--acw-bg);
+  border-left: 1.5px solid var(--acw-border);
+  border-right: 1.5px solid var(--acw-border);
+  padding: 0 4px;
+  height: 28px; line-height: 28px;
+  white-space: nowrap;
+  display: inline-block;
+}
+
+/* ── Align card (div) — not clickable, shows alignment buttons ── */
+.acw-wrap .acw-feature-card.acw-feature-card--align {
+  cursor: default;
+  justify-content: flex-start;
+  padding-top: 14px;
+  gap: 6px;
+}
+.acw-wrap .acw-feature-card.acw-feature-card--align:hover {
+  border-color: var(--acw-border);
+  background: var(--acw-card-bg);
+  color: var(--acw-text-sub);
+}
+.acw-wrap .acw-feature-card.acw-feature-card--align:hover .acw-icon {
+  color: var(--acw-text-muted);
+}
+.acw-wrap .acw-feature-card .acw-align-group {
+  display: flex;
+  flex-shrink: 0;
+  border: 1.5px solid var(--acw-border);
+  border-radius: var(--acw-radius-sm);
+  overflow: hidden;
+  background: var(--acw-bg);
+  margin-top: 2px;
+  width: 100%;
+}
+.acw-wrap .acw-align-btn {
+  flex: 1; height: 28px;
+  display: flex; align-items: center; justify-content: center;
+  background: #f3f4f6;
+  border-right: 1.5px solid var(--acw-border);
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.acw-wrap .acw-align-btn:last-child        { border-right: none; }
+.acw-wrap .acw-align-btn:hover             { background: rgba(26,39,100,0.08); }
+.acw-wrap .acw-align-btn:focus             { outline: 2px solid var(--acw-navy); }
+.acw-wrap .acw-align-btn .acw-icon         { width: 11px; height: 11px; color: var(--acw-text-muted); }
+.acw-wrap .acw-align-btn:hover .acw-icon   { color: var(--acw-navy); }
+.acw-wrap .acw-align-btn.acw-active        { background: var(--acw-navy); }
+.acw-wrap .acw-align-btn.acw-active .acw-icon { color: #fff; }
+
+/* ==========================================================================
+   13. COLOR SECTION — full-width filter tabs above, swatches below
+   ========================================================================== */
+
+/* Filter tabs — 3-column full-width grid */
+.acw-wrap .acw-color-filter-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  padding: 4px 14px 12px;
+}
+.acw-wrap .acw-color-filter-tabs .acw-feature-card {
+  min-height: 0;
+  padding: 10px 8px;
+  font-size: 10px;
+  gap: 6px;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: left;
+}
+.acw-wrap .acw-color-filter-tabs .acw-feature-card .acw-icon {
+  width: 16px; height: 16px;
+  flex-shrink: 0;
+}
+.acw-wrap .acw-color-filter-tabs .acw-feature-card .acw-card-label {
+  text-align: left;
+}
+
+/* Swatch sections — full-width below filter tabs */
+.acw-wrap .acw-color-swatches {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 14px 16px;
+}
+.acw-wrap .acw-swatch-section {
+  padding: 12px;
+  border: 1.5px solid var(--acw-border);
+  border-radius: var(--acw-radius);
+  background: var(--acw-card-bg);
+}
+.acw-wrap .acw-swatch-title {
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: var(--acw-text-sub);
+  display: block;
+  margin-bottom: 10px;
+  line-height: 1;
+}
+.acw-wrap .acw-swatch-row {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.acw-wrap .acw-color-circle {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  border: 2.5px solid transparent;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  flex-shrink: 0;
+  padding: 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+}
+.acw-wrap .acw-color-circle:hover { transform: scale(1.15); }
+.acw-wrap .acw-color-circle:focus {
+  outline: 2px solid var(--acw-navy);
+  outline-offset: 2px;
+}
+.acw-wrap .acw-color-circle.acw-active {
+  border-color: var(--acw-navy);
+  box-shadow: 0 0 0 2px rgba(26,39,100,0.25);
+  transform: scale(1.1);
+}
+.acw-wrap .acw-color-circle--reset { background: #9ca3af !important; }
+
+/* ==========================================================================
+   14. PANEL FOOTER BAR — dark navy
+   ========================================================================== */
+.acw-wrap .acw-panel-footer-bar {
+  flex-shrink: 0;
+  background: var(--acw-navy);
+  padding: 14px 16px;
+  text-align: center;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.9);
+  letter-spacing: 0.3px;
+  line-height: 1;
+}
+
+/* ==========================================================================
+   15. ACCESSIBILITY STATEMENT MODAL
+   ========================================================================== */
+.acw-wrap .acw-modal-overlay {
+  position: fixed; inset: 0; z-index: 999999;
+  background: rgba(15,20,50,0.5);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.24s ease;
+}
+.acw-wrap .acw-modal-overlay.acw-modal-open { opacity: 1; pointer-events: auto; }
+.acw-wrap .acw-modal-box {
+  background: #fff;
+  border-radius: 12px;
+  width: 100%; max-width: 560px; max-height: 82vh;
+  display: flex; flex-direction: column;
+  box-shadow: 0 20px 60px rgba(15,20,50,0.28);
+  transform: scale(0.96) translateY(14px);
+  transition: transform 0.28s cubic-bezier(0.34,1.2,0.64,1);
+  overflow: hidden;
+}
+.acw-wrap .acw-modal-overlay.acw-modal-open .acw-modal-box {
+  transform: scale(1) translateY(0);
+}
+.acw-wrap .acw-modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 22px;
+  background: var(--acw-navy);
+  flex-shrink: 0;
+}
+.acw-wrap .acw-modal-title {
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 16px; font-weight: 700;
+  color: #fff; letter-spacing: 0.2px;
+  display: block;
+}
+.acw-wrap .acw-modal-close-btn {
+  width: 32px; height: 32px;
+  background: rgba(255,255,255,0.12);
+  border: 1.5px solid rgba(255,255,255,0.25);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+  color: #fff;
+}
+.acw-wrap .acw-modal-close-btn:hover {
+  background: rgba(255,255,255,0.25);
+  transform: rotate(90deg);
+}
+.acw-wrap .acw-modal-close-btn .acw-icon { width: 12px; height: 12px; }
+.acw-wrap .acw-modal-body {
+  padding: 22px 24px;
+  overflow-y: auto; flex: 1;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 13.5px; line-height: 1.7;
+  color: #374151;
+}
+.acw-wrap .acw-modal-body h3 {
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 12px; font-weight: 700;
+  color: var(--acw-navy);
+  margin: 16px 0 5px;
+  text-transform: uppercase; letter-spacing: 0.6px;
+  display: block;
+}
+.acw-wrap .acw-modal-body h3:first-child { margin-top: 0; }
+.acw-wrap .acw-modal-body p  { margin: 0 0 9px; display: block; }
+.acw-wrap .acw-modal-body ul {
+  margin: 5px 0 11px 20px;
+  padding: 0;
+  list-style: disc;
+  display: block;
+}
+.acw-wrap .acw-modal-body li { margin-bottom: 5px; display: list-item; }
+.acw-wrap .acw-modal-body a  { color: var(--acw-navy); text-decoration: underline; }
+.acw-wrap .acw-modal-footer {
+  padding: 12px 22px;
+  border-top: 1px solid var(--acw-border);
+  display: flex; justify-content: flex-end;
+  flex-shrink: 0;
+  background: #f9fafb;
+}
+.acw-wrap .acw-modal-ok-btn {
+  background: var(--acw-navy);
+  color: #fff;
+  border-radius: var(--acw-radius);
+  padding: 10px 28px;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 13px; font-weight: 600;
+  cursor: pointer;
+  transition: var(--acw-transition);
+  display: inline-flex; align-items: center;
+}
+.acw-wrap .acw-modal-ok-btn:hover {
+  background: var(--acw-navy-light);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   16. SCREEN READER ONLY
+   ========================================================================== */
+.acw-wrap .acw-sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+}
+
+/* ==========================================================================
+   17. READING GUIDE — appended to document.body (no .acw-wrap parent)
+   ========================================================================== */
+.acw-reading-guide {
+  position: fixed; left: 0; top: 50%;
+  width: 100%; height: 3px;
+  background: linear-gradient(90deg, transparent, #1a2764 30%, #1a2764 70%, transparent);
+  z-index: 999998; pointer-events: none;
+  box-shadow: 0 0 10px rgba(26,39,100,0.5);
+}
+
+/* ==========================================================================
+   18. READING MASK — appended to document.body
+   ========================================================================== */
+.acw-mask-top,
+.acw-mask-bottom {
+  position: fixed; left: 0; width: 100%;
+  background: rgba(8,14,30,0.7);
+  z-index: 999997; pointer-events: none;
+}
+.acw-mask-top    { top: 0;    height: 50%; }
+.acw-mask-bottom { bottom: 0; height: 50%; }
+
+/* ==========================================================================
+   19. TEXT MAGNIFIER — appended to document.body
+   ========================================================================== */
+.acw-magnifier {
+  position: fixed; z-index: 999999;
+  background: #fff; border: 2px solid #1a2764;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-family: 'Roboto', Arial, sans-serif;
+  font-size: 26px; font-weight: 600; color: #1a2764;
+  max-width: 340px; word-break: break-word;
+  box-shadow: 0 8px 28px rgba(26,39,100,0.18);
+  pointer-events: none; line-height: 1.4; display: none;
+}
+
+/* ==========================================================================
+   20. FOUC PREVENTION
+   ========================================================================== */
+.acw-wrap.acw-loading .acw-panel,
+.acw-wrap.acw-loading .acw-overlay,
+.acw-wrap.acw-loading .acw-logo-trigger { transition: none !important; }
+
+/* ==========================================================================
+   21. RESPONSIVE (≤ 480px)
+   ========================================================================== */
+@media (max-width: 480px) {
+  .acw-wrap {
+    --acw-panel-w: 100vw;
+    --acw-fab-size: 50px;
+  }
+  .acw-wrap .acw-panel { width: 100vw; }
+
+  .acw-wrap .acw-feature-grid { gap: 8px; padding: 4px 12px 14px; }
+  .acw-wrap .acw-feature-grid.acw-feature-grid--3col {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  .acw-wrap .acw-color-filter-tabs {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 4px 12px 12px;
+  }
+  .acw-wrap .acw-color-swatches { padding: 0 12px 14px; }
+  .acw-wrap .acw-section-header { padding: 15px 12px 8px; font-size: 12px; }
+  .acw-wrap .acw-profile-btn    { padding: 11px 12px; gap: 10px; }
+  .acw-wrap .acw-panel-header   { padding: 0 12px; height: 56px; }
+  .acw-wrap .acw-panel-title    { font-size: 16px; }
+  .acw-wrap .acw-top-btn        { font-size: 9px; padding: 7px 4px; }
+  .acw-wrap .acw-logo-trigger   { bottom: 20px; left: 14px; }
+}
+
+/* ==========================================================================
+   22. FOCUS VISIBLE
+   ========================================================================== */
+.acw-wrap *:focus-visible {
+  outline: 3px solid rgba(26,39,100,0.65);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   23. REDUCED MOTION
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  .acw-wrap .acw-panel,
+  .acw-wrap .acw-overlay,
+  .acw-wrap .acw-feature-card,
+  .acw-wrap .acw-profile-btn,
+  .acw-wrap .acw-top-btn,
+  .acw-wrap .acw-color-circle,
+  .acw-wrap .acw-logo-trigger  { transition: none; }
+  .acw-wrap .acw-toggle-thumb  { transition: none; }
+}

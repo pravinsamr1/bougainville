@@ -1,0 +1,121 @@
+$flaticon-font: "flaticon";
+
+@font-face {
+    font-family: $flaticon-font;
+    src: url("./flaticon.ttf?a42ae1a0b8569344fb5efbd38fc61441") format("truetype"),
+url("./flaticon.woff?a42ae1a0b8569344fb5efbd38fc61441") format("woff"),
+url("./flaticon.woff2?a42ae1a0b8569344fb5efbd38fc61441") format("woff2"),
+url("./flaticon.eot?a42ae1a0b8569344fb5efbd38fc61441#iefix") format("embedded-opentype"),
+url("./flaticon.svg?a42ae1a0b8569344fb5efbd38fc61441#flaticon") format("svg");
+}
+
+i[class^="flaticon-"]:before, i[class*=" flaticon-"]:before {
+    font-family: flaticon !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+$flaticon-map: (
+    "like": "\f101",
+    "heart": "\f102",
+    "right-quote": "\f103",
+    "call": "\f104",
+    "email": "\f105",
+    "magnifying-glass": "\f106",
+    "hindu-wedding": "\f107",
+    "hindu-wedding-1": "\f108",
+    "temple": "\f109",
+    "powder": "\f10a",
+    "hindu": "\f10b",
+    "hindu-1": "\f10c",
+    "ganesha": "\f10d",
+    "surya": "\f10e",
+    "pooja": "\f10f",
+    "bhogi": "\f110",
+    "arti": "\f111",
+    "mehndi": "\f112",
+    "coin": "\f113",
+    "hindu-2": "\f114",
+    "india": "\f115",
+    "cow": "\f116",
+    "powder-1": "\f117",
+    "location": "\f118",
+);
+
+.flaticon-like:before {
+    content: map-get($flaticon-map, "like");
+}
+.flaticon-heart:before {
+    content: map-get($flaticon-map, "heart");
+}
+.flaticon-right-quote:before {
+    content: map-get($flaticon-map, "right-quote");
+}
+.flaticon-call:before {
+    content: map-get($flaticon-map, "call");
+}
+.flaticon-email:before {
+    content: map-get($flaticon-map, "email");
+}
+.flaticon-magnifying-glass:before {
+    content: map-get($flaticon-map, "magnifying-glass");
+}
+.flaticon-hindu-wedding:before {
+    content: map-get($flaticon-map, "hindu-wedding");
+}
+.flaticon-hindu-wedding-1:before {
+    content: map-get($flaticon-map, "hindu-wedding-1");
+}
+.flaticon-temple:before {
+    content: map-get($flaticon-map, "temple");
+}
+.flaticon-powder:before {
+    content: map-get($flaticon-map, "powder");
+}
+.flaticon-hindu:before {
+    content: map-get($flaticon-map, "hindu");
+}
+.flaticon-hindu-1:before {
+    content: map-get($flaticon-map, "hindu-1");
+}
+.flaticon-ganesha:before {
+    content: map-get($flaticon-map, "ganesha");
+}
+.flaticon-surya:before {
+    content: map-get($flaticon-map, "surya");
+}
+.flaticon-pooja:before {
+    content: map-get($flaticon-map, "pooja");
+}
+.flaticon-bhogi:before {
+    content: map-get($flaticon-map, "bhogi");
+}
+.flaticon-arti:before {
+    content: map-get($flaticon-map, "arti");
+}
+.flaticon-mehndi:before {
+    content: map-get($flaticon-map, "mehndi");
+}
+.flaticon-coin:before {
+    content: map-get($flaticon-map, "coin");
+}
+.flaticon-hindu-2:before {
+    content: map-get($flaticon-map, "hindu-2");
+}
+.flaticon-india:before {
+    content: map-get($flaticon-map, "india");
+}
+.flaticon-cow:before {
+    content: map-get($flaticon-map, "cow");
+}
+.flaticon-powder-1:before {
+    content: map-get($flaticon-map, "powder-1");
+}
+.flaticon-location:before {
+    content: map-get($flaticon-map, "location");
+}
