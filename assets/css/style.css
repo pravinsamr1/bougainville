@@ -10255,3 +10255,10 @@ animation-play-state: paused;
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Poppins', sans-serif !important;
 }
+
+
+.ddd{
+  text-align: center;
+  padding-bottom: 0px;
+  margin-bottom: -50px;
+}
