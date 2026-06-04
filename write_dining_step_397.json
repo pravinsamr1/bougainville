@@ -1,0 +1,10 @@
+{
+  "ArtifactMetadata": "{\"ArtifactType\":\"other\",\"Summary\":\"Script to search write_to_file tool calls in transcript.jsonl for dining.html.\"}",
+  "CodeContent": "\"import json\\n\\npath = \\\"/Users/pravinsam/.gemini/antigravity-ide/brain/353b6a43-7fa1-4a16-b18d-9ef0cd6ad7d2/.system_generated/logs/transcript.jsonl\\\"\\nwith open(path, \\\"r\\\") as f:\\n    for line in f:\\n        data = json.loads(line)\\n        tcalls = data.get(\\\"tool_calls\\\", [])\\n        if isinstance(tcalls, list):\\n            for tc in tcalls:\\n                if tc.get(\\\"name\\\") == \\\"write_to_file\\\" and \\\"dining.html\\\" in str(tc.get(\\\"args\\\", {})):\\n                    print(f\\\"Found write_to_file call for dining.html in Step {data.get('step_index')}\\\")\\n                    # Save args to json\\n                    with open(f\\\"write_dining_step_{data.get('step_index')}.json\\\", \\\"w\\\") as out_f:\\n                        json.dump(tc.get(\\\"args\\\"), out_f, indent=2)\\n\"",
+  "Description": "\"Find dining.html write actions in logs\"",
+  "IsArtifact": "false",
+  "Overwrite": "true",
+  "TargetFile": "\"/Users/pravinsam/.gemini/antigravity-ide/brain/353b6a43-7fa1-4a16-b18d-9ef0cd6ad7d2/scratch/search_dining_writes.py\"",
+  "toolAction": "\"Creating search_dining_writes.py script\"",
+  "toolSummary": "\"Create script\""
+}

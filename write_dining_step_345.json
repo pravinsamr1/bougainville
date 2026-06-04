@@ -1,0 +1,10 @@
+{
+  "ArtifactMetadata": "{\"ArtifactType\":\"other\",\"Summary\":\"Script to extract original dining.html content from transcript.jsonl.\"}",
+  "CodeContent": "\"import json\\n\\npath = \\\"/Users/pravinsam/.gemini/antigravity-ide/brain/353b6a43-7fa1-4a16-b18d-9ef0cd6ad7d2/.system_generated/logs/transcript.jsonl\\\"\\nwith open(path, \\\"r\\\") as f:\\n    for line in f:\\n        data = json.loads(line)\\n        content = data.get(\\\"content\\\", \\\"\\\")\\n        # Check if the output of viewing dining.html is in this step\\n        if \\\"dining.html\\\" in str(data.get(\\\"tool_calls\\\", \\\"\\\")) or \\\"dining.html\\\" in str(data.get(\\\"content\\\", \\\"\\\")):\\n            # If the tool call was view_file on dining.html\\n            tool_calls = data.get(\\\"tool_calls\\\", [])\\n            if isinstance(tool_calls, list):\\n                for tc in tool_calls:\\n                    if tc.get(\\\"name\\\") == \\\"view_file\\\" and \\\"dining.html\\\" in str(tc.get(\\\"args\\\", {})):\\n                        print(f\\\"Found view_file tool call in Step {data.get('step_index')}\\\")\\n            \\n            # If this is the output of view_file\\n            output = data.get(\\\"output\\\", \\\"\\\")\\n            if \\\"dining.html\\\" in str(output) and \\\"C Salt\\\" in str(output):\\n                print(f\\\"Found C Salt in Step {data.get('step_index')} output!\\\")\\n                # Print size of output\\n                print(f\\\"Output size: {len(output)}\\\")\\n                # Save to file\\n                with open(\\\"extracted_dining_output.txt\\\", \\\"w\\\") as out_f:\\n                    out_f.write(output)\\n\"",
+  "Description": "\"Create a script to find and extract original dining.html content from transcript.jsonl\"",
+  "IsArtifact": "false",
+  "Overwrite": "true",
+  "TargetFile": "\"/Users/pravinsam/.gemini/antigravity-ide/brain/353b6a43-7fa1-4a16-b18d-9ef0cd6ad7d2/scratch/extract_dining.py\"",
+  "toolAction": "\"Creating extract_dining.py script\"",
+  "toolSummary": "\"Create script\""
+}
