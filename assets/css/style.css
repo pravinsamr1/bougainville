@@ -10262,3 +10262,18 @@ h1, h2, h3, h4, h5, h6 {
   padding-bottom: 0px;
   margin-bottom: -50px;
 }
+
+.about-section-padding{
+  padding: 70px 0px !important;
+}
+
+.no-margin-bottom{
+  margin-bottom: 0px !important;
+}
+
+.index-footer-bg {
+  background-image: linear-gradient(rgba(24, 10, 14, 0.94), rgba(24, 10, 14, 0.94)), url('../img/bread.jpg') !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+}

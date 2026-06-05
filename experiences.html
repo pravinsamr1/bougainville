@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Resort Experiences — On-site outlets, wellness fitness center, kids play park, beach volleyball, and oceanfront pools at Bougainville Resorts Chennai.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Experiences | Bougainville Resorts By The Sea">
+  <meta property="og:description"
+    content="Resort Experiences — On-site outlets, wellness fitness center, kids play park, beach volleyball, and oceanfront pools at Bougainville Resorts Chennai.">
+  <meta property="og:image" content="assets/img/experiences/pool.png">
+  <title>Experiences | Bougainville Resorts By The Sea</title>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon.ico">
+
+  <!-- partial:partial/__stylesheets.html -->
+  <link rel="stylesheet" href="assets/css/plugins/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/css/plugins/animate.min.css">
+  <link rel="stylesheet" href="assets/css/plugins/magnific-popup.css">
+  <link rel="stylesheet" href="assets/css/plugins/slick.css">
+  <link rel="stylesheet" href="assets/css/plugins/slick-theme.css">
+  <link rel="stylesheet" href="assets/css/plugins/ion.rangeSlider.min.css">
+
+  <!-- Icon Fonts -->
+  <link rel="stylesheet" href="assets/fonts/flaticon/flaticon.css">
+  <link rel="stylesheet" href="assets/css/plugins/font-awesome.min.css">
+  <!-- Template Style sheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/responsive.css">
+  <!-- Theme color panel -->
+  <link id="mht-color-link" class="color-changing" href="assets/css/theme-colors/color1.css" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/mht-panel.css">
+  <link rel="stylesheet" href="assets/css/mht-v13.css">
+
+  <style>
+    /* Premium On-Site Outlets Section Style */
+    .experience-container {
+      padding: 80px 0;
+    }
+
+    .experience-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      border-bottom: 1px solid #efefef;
+      padding-bottom: 20px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .experience-header .title {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--mht-primary);
+      margin: 0;
+      font-family: var(--mht-font-heading);
+    }
+
+    .experience-stats {
+      display: flex;
+      gap: 25px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--mht-body);
+      text-transform: lowercase;
+    }
+
+    .experience-stats span {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .experience-stats span i {
+      font-size: 16px;
+      color: #25d366;
+    }
+
+    .experience-slider {
+      margin: 0 -15px;
+    }
+
+    .experience-slider .slick-slide {
+      padding: 15px;
+      outline: none;
+    }
+
+    /* Style Slick arrows */
+    .experience-slider .slick-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 5;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background: #fff;
+      border: 1px solid #efefef;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+      color: var(--mht-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .experience-slider .slick-arrow:hover {
+      background: var(--mht-primary);
+      color: #fff;
+      border-color: var(--mht-primary);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .experience-slider .slick-prev {
+      left: -22px;
+    }
+
+    .experience-slider .slick-next {
+      right: -22px;
+    }
+
+    @media (max-width: 1200px) {
+      .experience-slider .slick-prev {
+        left: 5px;
+      }
+
+      .experience-slider .slick-next {
+        right: 5px;
+      }
+    }
+
+    /* Style Slick dots */
+    .experience-slider .slick-dots {
+      display: flex;
+      justify-content: center;
+      list-style: none;
+      padding: 0;
+      margin-top: 25px;
+      gap: 8px;
+    }
+
+    .experience-slider .slick-dots li button {
+      border: none;
+      background: #ddd;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      font-size: 0;
+      padding: 0;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .experience-slider .slick-dots li.slick-active button {
+      background: var(--mht-accent);
+      width: 20px;
+      border-radius: 10px;
+    }
+
+    .experience-card {
+      position: relative;
+      height: 480px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      background: #000;
+    }
+
+    .experience-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.18);
+    }
+
+    .experience-card-img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .experience-card:hover .experience-card-img {
+      transform: scale(1.1);
+    }
+
+    .experience-card-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.85) 100%);
+      z-index: 1;
+    }
+
+    .experience-card-content {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 25px;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .experience-card-title {
+      color: #fff;
+      font-size: 22px;
+      font-weight: 600;
+      margin: 0;
+      font-family: var(--mht-font-heading);
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
+  </style>
+
+</head>
+
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <!-- Preloader Start -->
+  <div class="sigma_preloader">
+    <img src="assets/img/om.svg" alt="preloader" loading="lazy">
+  </div>
+  <!-- Preloader End -->
+
+  <!-- partial:partia/__mobile-nav.html -->
+  <aside class="sigma_aside sigma_aside-left">
+
+    <a class="navbar-brand" href="index.html"> <img src="assets/img/logo.png" alt="logo" loading="lazy"> </a>
+
+    <!-- Menu -->
+    <ul>
+      <li class="menu-item"><a href="index.html">Home</a></li>
+      <li class="menu-item"><a href="about-us.html">About Resort</a></li>
+      <li class="menu-item"><a href="accomodations.html">Accommodation</a></li>
+      <li class="menu-item"><a href="premium-accomodations.html">Premium Accommodation</a></li>
+      <li class="menu-item"><a href="dining.html">Dining</a></li>
+      <li class="menu-item"><a href="events.html">Events</a></li>
+      <li class="menu-item"><a href="gallery.html">Gallery</a></li>
+      <li class="menu-item active"><a href="experiences.html">Experience</a></li>
+      <li class="menu-item"><a href="contact-us.html">Contact</a></li>
+    </ul>
+
+  </aside>
+  <div class="sigma_aside-overlay aside-trigger-left"></div>
+
+  <!-- partial:partia/__header.html -->
+  <header class="sigma_header header-3 can-sticky header-absolute">
+
+    <!-- Middle Header Start -->
+    <div class="sigma_header-middle">
+      <nav class="navbar">
+
+        <!-- Logo Start -->
+        <div class="sigma_logo-wrapper">
+          <a class="navbar-brand" href="index.html">
+            <img src="assets/img/logo.png" alt="logo" loading="lazy">
+          </a>
+        </div>
+        <!-- Logo End -->
+
+        <!-- Menu -->
+        <div class="sigma_header-inner">
+          <div class="sigma_header-top">
+            <div class="sigma_header-top-inner">
+              <ul class="sigma_header-top-links">
+                <li class="menu-item"> <a href="tel:+123456789"> <i class="fal fa-phone"></i> +91 94440 07890</a> </li>
+                <li class="menu-item"> <a href="mailto:sales@bougainvillechennai.com"
+                    style="text-transform: lowercase;"> <i class="fal fa-envelope"></i> sales@bougainvillechennai.com
+                  </a> </li>
+              </ul>
+
+            </div>
+          </div>
+          <div class="d-flex justify-content-center justify-content-lg-between">
+            <ul class="navbar-nav">
+              <li class="menu-item">
+                <a href="index.html">Home</a>
+              </li>
+
+              <li class="menu-item">
+                <a href="about-us.html">About Resort</a>
+              </li>
+
+              <li class="menu-item">
+                <a href="accomodations.html">Accommodation</a>
+              </li>
+
+              <li class="menu-item">
+                <a href="premium-accomodations.html">Premium Accommodation</a>
+              </li>
+
+              <li class="menu-item">
+                <a href="dining.html">Dining</a>
+              </li>
+
+              <li class="menu-item">
+                <a href="events.html">Events</a>
+              </li>
+
+              <li class="menu-item">
+                <a href="gallery.html">Gallery</a>
+              </li>
+
+              <li class="menu-item active">
+                <a href="experiences.html">Experience</a>
+              </li>
+
+              <li class="menu-item">
+                <a href="contact-us.html">Contact</a>
+              </li>
+            </ul>
+            <div class="sigma_header-controls style-2 p-0 border-0">
+            </div>
+          </div>
+        </div>
+        <!-- Controls -->
+        <div class="sigma_header-controls style-2">
+          <a href="contact-us.html" class="sigma_btn-custom">Book Now</a>
+          <ul class="sigma_header-controls-inner">
+            <!-- Mobile Toggler -->
+            <li class="aside-toggler style-2 aside-trigger-left">
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </li>
+          </ul>
+        </div>
+
+      </nav>
+    </div>
+    <!-- Middle Header End -->
+
+  </header>
+  <main id="main-content">
+
+    <!-- partial:partia/__subheader.html -->
+    <div class="sigma_subheader dark-overlay dark-overlay-2" style="background-image: url(assets/img/bread.jpg)">
+      <div class="container">
+        <div class="sigma_subheader-inner">
+          <div class="sigma_subheader-text">
+            <h1>Resort Experiences</h1>
+          </div>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a class="btn-link" href="index.html">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Experiences</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+    <!-- partial -->
+
+    <!-- On-Site Outlets Section Start -->
+    <section class="experience-container about-section-padding">
+      <div class="container">
+
+        <div class="experience-header">
+          <h3 class="title">Resort Experiences</h3>
+        </div>
+
+        <div class="experience-slider">
+
+          <!-- Slide 1 -->
+          <div>
+            <div class="experience-card">
+              <img src="assets/img/experiences/fitness.png" class="experience-card-img" alt="Bougainville Fitness"
+                loading="lazy">
+              <div class="experience-card-overlay"></div>
+              <div class="experience-card-content">
+                <h4 class="experience-card-title">Bougainville Fitness</h4>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 2 -->
+          <div>
+            <div class="experience-card">
+              <img src="assets/img/experiences/recreation.png" class="experience-card-img" alt="Kids Recreation"
+                loading="lazy">
+              <div class="experience-card-overlay"></div>
+              <div class="experience-card-content">
+                <h4 class="experience-card-title">Kids Recreation</h4>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 3 -->
+          <div>
+            <div class="experience-card">
+              <img src="assets/img/experiences/cabanas.png" class="experience-card-img" alt="Beachfront Cabanas"
+                loading="lazy">
+              <div class="experience-card-overlay"></div>
+              <div class="experience-card-content">
+                <h4 class="experience-card-title">Beachfront Cabanas</h4>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 4 -->
+          <div>
+            <div class="experience-card">
+              <img src="assets/img/experiences/pool.png" class="experience-card-img" alt="Infinity Pool" loading="lazy">
+              <div class="experience-card-overlay"></div>
+              <div class="experience-card-content">
+                <h4 class="experience-card-title">Infinity Pool</h4>
+              </div>
+            </div>
+          </div>
+
+          <!-- Slide 5 -->
+          <div>
+            <div class="experience-card">
+              <img src="assets/img/experiences/sports.png" class="experience-card-img" alt="Beachfront Sports"
+                loading="lazy">
+              <div class="experience-card-overlay"></div>
+              <div class="experience-card-content">
+                <h4 class="experience-card-title">Beachfront Sports</h4>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="section pt-0">
+      <div class="container">
+
+        <div class="row">
+          <div class="col-lg-5 mb-lg-30">
+            <div class="img-group-3">
+              <img src="assets/img/ac1.jpg" alt="Memorable Experiences by the Bay" loading="lazy"
+                style="border-radius: 10%; box-shadow: 25px 35px 70px rgba(0, 0, 0, 0.35);">
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <div class="me-lg-30">
+              <div class="section-title mb-0 text-start wow fadeInUp" data-wow-duration="0.7s">
+                <h4 class="title">Memorable Experiences by the Bay</h4>
+              </div>
+              <p class="blockquote bg-transparent mb-3"> Relax by the bay at our Chennai private beach resort, playing
+                around in the waves with your family and friends, or spending some valuable time with your spouse.
+                Create unforgettable memories when you visit us at Bougainville Resorts By The Sea.</p>
+              <p class="mt-3" style="font-size: 16px; line-height: 1.8;">Nestled along the pristine shores of Kovalam,
+                our resort offers a sanctuary of tranquility where the gentle breeze and soothing waves create a perfect
+                backdrop for rejuvenation. Whether you are strolling along the golden sands, enjoying beachside
+                activities, or watching the sunset with your loved ones, every moment is crafted to offer you a premium
+                coastal experience.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="section light-bg about-section-padding">
+      <div class="container">
+
+        <div class="row">
+
+          <div class="col-lg-7">
+            <div class="me-lg-30">
+              <div class="section-title mb-0 text-start wow fadeInUp" data-wow-duration="0.7s">
+                <h4 class="title">Pack Your Bags for a Family Adventure</h4>
+              </div>
+              <p class="blockquote bg-transparent mb-3">Have a family leisure vacation by the bay with your loved ones.
+                Find the space you need to enjoy quality time together all while saving up to 10% on food & beverage,
+                spa therapies, and laundry services. Keep the kids engaged and active throughout your stay with
+                complimentary access to our kids zone and daily activities.</p>
+              <p class="mt-3" style="font-size: 16px; line-height: 1.8;">Our resort is designed to cater to guests of
+                all ages, offering a perfect mix of relaxation for adults and entertainment for children. From
+                sandcastle building on the beach to engaging craft workshops at our dedicated kids' play park, we ensure
+                that your children have a memorable and safe holiday. Create lasting family bonds over beach volleyball
+                or a cozy evening campfire under the stars.</p>
+            </div>
+          </div>
+
+          <div class="col-lg-5 mb-lg-30">
+            <div class="img-group-3">
+              <img src="assets/img/ac2.jpg" alt="Pack Your Bags for a Family Adventure" loading="lazy"
+                style="border-radius: 10%; box-shadow: -25px 35px 70px rgba(0, 0, 0, 0.35);">
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="section about-section-padding">
+      <div class="container">
+
+        <div class="row">
+          <div class="col-lg-5 mb-lg-30">
+            <div class="img-group-3">
+              <img src="assets/img/ac1.jpg" alt="Shine Spa at Bougainville" loading="lazy"
+                style="border-radius: 10%; box-shadow: 25px 35px 70px rgba(0, 0, 0, 0.35);">
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <div class="me-lg-30">
+              <div class="section-title mb-0 text-start wow fadeInUp" data-wow-duration="0.7s">
+                <h4 class="title">Shine Spa at Bougainville</h4>
+              </div>
+              <p class="blockquote bg-transparent mb-3"> Our beachside resort in Kovalam makes it easy to relax and
+                unwind during your stay along the scenic ECR. The Shine Spa at Bougainville Resorts By The Sea offers
+                curated wellness packages, rejuvenating body massages, and purifying facial treatments designed to
+                restore your inner balance.</p>
+              <p class="mt-3" style="font-size: 16px; line-height: 1.8;">Step into a world of ultimate tranquility at
+                our oceanfront spa facility. Our certified therapists utilize premium organic botanical extracts and
+                ancient wellness traditions to melt away stress. Treat yourself to signature therapies that blend local
+                ingredients with international techniques, leaving you refreshed, revitalized, and ready to enjoy the
+                rest of your seaside getaway.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <section class="section light-bg about-section-padding">
+      <div class="container">
+
+        <div class="row">
+
+          <div class="col-lg-7">
+            <div class="me-lg-30">
+              <div class="section-title mb-0 text-start wow fadeInUp" data-wow-duration="0.7s">
+                <h4 class="title">Sustainable Coastal Travel</h4>
+              </div>
+              <p class="blockquote bg-transparent mb-3">The Sustainable Coastal Travel initiative at Bougainville
+                Resorts By The Sea offers meaningful travel experiences, allowing you the opportunity to create a
+                positive environmental and social impact as you explore Kovalam and build deeper connections with the
+                local community.</p>
+              <p class="mt-3" style="font-size: 16px; line-height: 1.8;">We are committed to preserving the natural
+                beauty of the Chennai coastline and supporting the local community. Through our program, guests can
+                participate in beach cleaning drives, learn about turtle conservation efforts along the Bay of Bengal,
+                and support local artisanal workshops. Travel with purpose and leave a positive legacy behind while
+                enjoying a luxury beachfront stay.</p>
+            </div>
+          </div>
+
+          <div class="col-lg-5 mb-lg-30">
+            <div class="img-group-3">
+              <img src="assets/img/ac2.jpg" alt="Sustainable Coastal Travel" loading="lazy"
+                style="border-radius: 10%; box-shadow: -25px 35px 70px rgba(0, 0, 0, 0.35);">
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- Portfolio Start -->
+    <div class="section section-padding pt-0 about-section-padding">
+      <div class="container-fluid">
+
+        <div class="text-center">
+          <h2 class="title">Relaxation Amenities</h2>
+        </div>
+
+        <div class="row pt-5">
+          <div class="col-lg-4 coaching">
+            <div class="sigma_portfolio-item">
+              <img src="assets/img/el1.jpg" alt="Sparkling Breakfast" loading="lazy">
+              <div class="sigma_portfolio-item-content">
+                <div class="sigma_portfolio-item-content-inner">
+                  <h5 class="text-white"> Recreational Lounge</h5>
+                  <p>Have an amazing time with your friends and have fun playing billiards , Chess or Table Tennis at
+                    our Recreational Center.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 strategy">
+            <div class="sigma_portfolio-item">
+              <img src="assets/img/el2.jpg" alt="Floating Breakfast" loading="lazy">
+              <div class="sigma_portfolio-item-content">
+                <div class="sigma_portfolio-item-content-inner">
+                  <h5 class="text-white">Bougainville Fitness</h5>
+                  <p>Don't miss out on your daily schedule of working out. Enjoy state-of-the-art facilities at our
+                    Bougainville Fitness Centre.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 coaching strategy">
+            <div class="sigma_portfolio-item">
+              <img src="assets/img/el3.jpg" alt="Dining by the Bay at the Cabana" loading="lazy">
+              <div class="sigma_portfolio-item-content">
+                <div class="sigma_portfolio-item-content-inner">
+                  <h5 class="text-white">Swimming Pool</h5>
+                  <p>Dip into the vastness with our infinity pool facing the bay and relax with a refreshing cocktail at
+                    our Infinity Swimming Pool.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Portfolio End -->
+
+
+  </main>
+
+  <footer class="sigma_footer footer-2 sigma_footer-dark">
+
+    <!-- Middle Footer -->
+    <div class="sigma_footer-middle">
+      <div class="container">
+        <div class="row">
+
+          <!-- About Us -->
+          <div class="col-lg-4 col-md-6 footer-widget">
+            <h5 class="widget-title">About Us</h5>
+            <p class="mb-4">
+              Bougainville Resorts By The Sea is a luxury beachside resort in Kovalam
+              offering private yurts, premium dining, swimming pools, beach events,
+              and unforgettable holiday experiences near Chennai.
+            </p>
+          </div>
+
+          <!-- Quick Links -->
+          <div class="col-lg-2 col-md-6 footer-widget">
+            <h5 class="widget-title">Quick Links</h5>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="about-us.html">About Resort</a></li>
+              <li><a href="gallery.html">Gallery</a></li>
+              <li><a href="contact-us.html">Contact Us</a></li>
+            </ul>
+          </div>
+
+          <!-- Resort Menu -->
+          <div class="col-lg-2 col-md-6 footer-widget">
+            <h5 class="widget-title">Resort Menu</h5>
+            <ul>
+              <li><a href="accomodations.html">Accommodation</a></li>
+              <li><a href="premium-accomodations.html">Premium Accommodation</a></li>
+              <li><a href="dining.html">Dining</a></li>
+              <li><a href="events.html">Events</a></li>
+            </ul>
+          </div>
+
+          <!-- Contact Info -->
+          <div class="col-lg-4 col-md-6 footer-widget">
+            <h5 class="widget-title">Contact Info</h5>
+            <div class="d-flex align-items-start mb-3">
+              <i class="far fa-phone custom-primary me-3 mt-1"></i>
+              <span>+91 94440 07890</span>
+            </div>
+            <div class="d-flex align-items-start mb-3">
+              <i class="far fa-envelope custom-primary me-3 mt-1"></i>
+              <span>sales@bougainvillechennai.com </span>
+            </div>
+            <div class="d-flex align-items-start">
+              <i class="far fa-map-marker custom-primary me-3 mt-1"></i>
+              <span>
+                Phillip Thottam, <br>
+                Kovalam, Chennai.
+              </span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer Bottom -->
+    <div class="sigma_footer-bottom">
+      <div class="container-fluid">
+        <div class="sigma_footer-copyright">
+          <p> Copyright © Bougainville Resorts By The Sea - <a href="#" class="text-white">2026</a> </p>
+        </div>
+        <ul class="sigma_sm square">
+          <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
+          <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+          <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+          <li><a href="#"><i class="fab fa-youtube"></i></a></li>
+        </ul>
+      </div>
+    </div>
+
+  </footer>
+
+  <!-- partial:partia/__scripts.html -->
+  <script src="assets/js/plugins/jquery-3.4.1.min.js"></script>
+  <script src="assets/js/plugins/popper.min.js"></script>
+  <script src="assets/js/plugins/bootstrap.min.js"></script>
+  <script src="assets/js/plugins/imagesloaded.min.js"></script>
+  <script src="assets/js/plugins/jquery.magnific-popup.min.js"></script>
+  <script src="assets/js/plugins/jquery.countdown.min.js"></script>
+  <script src="assets/js/plugins/jquery.waypoints.min.js"></script>
+  <script src="assets/js/plugins/jquery.counterup.min.js"></script>
+  <script src="assets/js/plugins/jquery.zoom.min.js"></script>
+  <script src="assets/js/plugins/jquery.inview.min.js"></script>
+  <script src="assets/js/plugins/wow.min.js"></script>
+  <script src="assets/js/plugins/isotope.pkgd.min.js"></script>
+  <script src="assets/js/plugins/slick.min.js"></script>
+  <script src="assets/js/plugins/ion.rangeSlider.min.js"></script>
+
+  <script src="assets/js/main.js"></script>
+
+  <script>
+    jQuery(document).ready(function ($) {
+      $('.experience-slider').slick({
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        arrows: true,
+        dots: true,
+        autoplay: true,
+        autoplaySpeed: 3000,
+        prevArrow: '<button class="slick-prev slick-arrow" aria-label="Previous"><i class="fal fa-arrow-left"></i></button>',
+        nextArrow: '<button class="slick-next slick-arrow" aria-label="Next"><i class="fal fa-arrow-right"></i></button>',
+        responsive: [
+          {
+            breakpoint: 992,
+            settings: {
+              slidesToShow: 2,
+              slidesToScroll: 1
+            }
+          },
+          {
+            breakpoint: 576,
+            settings: {
+              slidesToShow: 1,
+              slidesToScroll: 1
+            }
+          }
+        ]
+      });
+    });
+  </script>
+
+  <!-- WhatsApp Widget -->
+  <script>
+    (function (w, d, s, u) {
+      w.gbwawc = {
+        url: u,
+        options: {
+          waId: "919444007890",
+          siteName: "Bougainville",
+          siteTag: "Available",
+          siteLogo: "https://honeyglow.in//assets/img/wb.png",
+          widgetPosition: "RIGHT",
+          triggerMessage: "",
+          welcomeMessage: "Welcome to Bougainville",
+          brandColor: "#25D366",
+          messageText: "",
+          replyOptions: ['', '', ''],
+        },
+      };
+      var h = d.getElementsByTagName(s)[0],
+        j = d.createElement(s);
+      j.async = true;
+      j.src = u + "/whatsapp-widget.min.js?_=" + Math.random();
+      h.parentNode.insertBefore(j, h);
+    })(window, document, "script", "https://waw.gallabox.com");
+  </script>
+
+  <!-- Back To Top Start -->
+  <div class="sigma_top style-5">
+    <i class="far fa-angle-double-up"></i>
+  </div>
+
+</body>
+
+</html>
