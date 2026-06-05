@@ -10272,7 +10272,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .index-footer-bg {
-  background-image: linear-gradient(rgba(24, 10, 14, 0.94), rgba(24, 10, 14, 0.94)), url('../img/bread.jpg') !important;
+  background-image: linear-gradient(rgba(24, 10, 14, 0.94), rgba(24, 10, 14, 0.74)), url('../img/bread.jpg') !important;
   background-size: cover !important;
   background-position: center !important;
   background-repeat: no-repeat !important;
