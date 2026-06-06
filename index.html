@@ -16,7 +16,7 @@
   <title>Bougainville Resorts By The Sea | Kovalam Beach Resort</title>
 
   <!-- Favicon -->
-  <link rel="icon" type="image/png" sizes="32x32" href="favicon.ico">
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/img/fav.png">
 
   <!-- partial:partial/__stylesheets.html -->
   <link rel="stylesheet" href="assets/css/plugins/bootstrap.min.css">
@@ -42,13 +42,139 @@
 
   <!-- partial -->
 
+  <style>
+    /* Scoped Events section modern styling */
+    #index-events-section .row {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    #index-events-section .col-lg-4 {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 30px;
+    }
+
+    #index-events-section .sigma_service.style-2 {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      background: #ffffff;
+      border: 1px solid rgba(0, 0, 0, 0.06);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.02);
+      transform-style: preserve-3d;
+      transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0);
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform, box-shadow;
+    }
+
+    #index-events-section .sigma_service.style-2:hover {
+      border-color: rgba(126, 69, 85, 0.2);
+      box-shadow: 0 20px 40px rgba(126, 69, 85, 0.1), 0 8px 16px rgba(0, 0, 0, 0.04);
+    }
+
+    /* Image Zoom */
+    #index-events-section .sigma_service.style-2 .sigma_service-thumb {
+      position: relative;
+      overflow: hidden;
+      border-radius: 16px 16px 0 0;
+      margin-bottom: 0;
+    }
+
+    #index-events-section .sigma_service.style-2 .sigma_service-thumb img {
+      width: 100%;
+      height: auto;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #index-events-section .sigma_service.style-2:hover .sigma_service-thumb img {
+      transform: scale(1.06);
+    }
+
+    /* Equal card layout */
+    #index-events-section .sigma_service-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 30px;
+    }
+
+    #index-events-section .sigma_service-body p {
+      flex-grow: 1;
+      /* margin-bottom: 20px; */
+    }
+
+    /* Title colors */
+    #index-events-section .sigma_service.style-2 h5 a {
+      transition: color 0.3s ease;
+    }
+
+    #index-events-section .sigma_service.style-2:hover h5 a {
+      color: var(--mht-primary) !important;
+    }
+
+    /* Progress area guest and location details */
+    #index-events-section .sigma_service-progress {
+      border-top: 1px solid rgba(0, 0, 0, 0.05);
+      padding-top: 15px;
+      margin-top: auto;
+    }
+
+    #index-events-section .sigma_service-progress span {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    #index-events-section .sigma_service-progress span i {
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    #index-events-section .sigma_service.style-2:hover .sigma_service-progress span i {
+      transform: scale(1.2) translateY(-1px);
+    }
+
+    /* Spotlight overlay */
+    #index-events-section .spotlight-glow {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 5;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      background: radial-gradient(
+        350px circle at var(--x, 0px) var(--y, 0px),
+        rgba(126, 69, 85, 0.1),
+        transparent 80%
+      );
+    }
+
+    /* View More Button Alignment and Hover */
+    #index-events-section .sigma_btn-custom {
+      margin-top: 25px;
+      align-self: flex-start;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    #index-events-section .sigma_service.style-2:hover .sigma_btn-custom {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 15px rgba(126, 69, 85, 0.25);
+    }
+  </style>
+
 </head>
 
 <body class="page-accommodation">
   <a class="skip-link" href="#main-content">Skip to main content</a>
   <!-- Preloader Start -->
   <div class="sigma_preloader">
-    <img src="assets/img/om.svg" alt="preloader" loading="lazy">
+    <img src="assets/img/fav.png" alt="preloader" loading="lazy">
   </div>
   <!-- Preloader End -->
 
@@ -1037,7 +1163,7 @@
 
         <!-- Donation Start -->
 
-        <div class="section section-padding about-section-padding">
+        <div class="section section-padding about-section-padding" id="index-events-section">
           <div class="container">
             <div class="section-title text-center wow fadeInUp" data-wow-duration="0.7s">
               <h4 class="title">Events</h4>
@@ -1058,8 +1184,8 @@
                     <div class="sigma_service-progress" style="margin-bottom: 15px;">
                       <div class="progress-content d-flex justify-content-between"
                         style="font-size: 14px; font-weight: 500; color: var(--mht-body);">
-                        <span><i class="fal fa-users custom-primary"></i> 50 - 500 Guests</span>
-                        <span><i class="fal fa-map-marker-alt custom-primary"></i> Beachfront Pavilion</span>
+                        <span>50 - 500 Guests</span>
+                        <span>Beachfront Pavilion</span>
                       </div>
                     </div>
                     <a href="events.html" class="sigma_btn-custom">
@@ -1083,8 +1209,8 @@
                     <div class="sigma_service-progress" style="margin-bottom: 15px;">
                       <div class="progress-content d-flex justify-content-between"
                         style="font-size: 14px; font-weight: 500; color: var(--mht-body);">
-                        <span><i class="fal fa-building custom-primary"></i> 20 - 150 Guests</span>
-                        <span><i class="fal fa-clipboard-list-check custom-primary"></i> Inclusive Catering</span>
+                        <span>20 - 150 Guests</span>
+                        <span> Inclusive Catering</span>
                       </div>
                     </div>
                     <a href="events.html" class="sigma_btn-custom">
@@ -1108,8 +1234,7 @@
                     <div class="sigma_service-progress" style="margin-bottom: 15px;">
                       <div class="progress-content d-flex justify-content-between"
                         style="font-size: 14px; font-weight: 500; color: var(--mht-body);">
-                        <span><i class="fal fa-key custom-primary"></i> Full Buyout Available</span>
-                        <span><i class="fal fa-gift custom-primary"></i> Custom Event Design</span>
+                            <span>               <span> Custom Event Design</span>
                       </div>
                     </div>
                     <a href="events.html" class="sigma_btn-custom">
@@ -1544,7 +1669,49 @@
     })(window, document, "script", "https://waw.gallabox.com");
   </script>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const cards = document.querySelectorAll('#index-events-section .sigma_service.style-2');
+      
+      cards.forEach(card => {
+        // Create spotlight element dynamically
+        const spotlight = document.createElement('div');
+        spotlight.className = 'spotlight-glow';
+        card.appendChild(spotlight);
 
+        // Mouse Move event
+        card.addEventListener('mousemove', function(e) {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+
+          // Set spotlight coordinates
+          card.style.setProperty('--x', `${x}px`);
+          card.style.setProperty('--y', `${y}px`);
+
+          // Calculate 3D tilt angles
+          const rotateX = ((y / rect.height) - 0.5) * -12; // Max tilt 12 degrees
+          const rotateY = ((x / rect.width) - 0.5) * 12;
+
+          // Set tilt style with immediate response
+          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+        });
+
+        // Mouse Enter
+        card.addEventListener('mouseenter', function() {
+          spotlight.style.opacity = '1';
+          card.style.transition = 'transform 0.1s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.3s ease, border-color 0.3s ease';
+        });
+
+        // Mouse Leave (reset card)
+        card.addEventListener('mouseleave', function() {
+          spotlight.style.opacity = '0';
+          card.style.transition = 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+          card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
+        });
+      });
+    });
+  </script>
 
   <!-- Back To Top Start -->
   <div class="sigma_top style-5">
