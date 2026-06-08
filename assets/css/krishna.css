@@ -16,7 +16,7 @@
 .kr-hero {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: 90vh;
   min-height: 620px;
   overflow: hidden;
 }
