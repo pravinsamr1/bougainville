@@ -658,8 +658,8 @@
   }
 
   .footer-widget {
-      text-align: center;
-      padding-bottom: 50px;
+      /* text-align: center; */
+      padding-bottom: 30px;
   }
   .sigma_footer.footer-2 .sigma_footer-middle{
     padding-top: 50px;

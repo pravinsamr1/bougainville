@@ -4737,7 +4737,7 @@ table img {
 .sigma_subheader .breadcrumb-item+.breadcrumb-item::before {
     color: #777;
     font-family: 'Font Awesome 5 Pro';
-    content: "\f679";
+    content: "\f5ca";
     margin-left: auto;
     -webkit-transition: .3s;
     -o-transition: .3s;
@@ -10278,6 +10278,11 @@ h1, h2, h3, h4, h5, h6 {
   background-repeat: no-repeat !important;
 }
 
+
+.sigma_testimonial-sec.style-4{
+  padding-top: 70px;
+}
+
 @media(max-width:767px){
   .header-3 .sigma_logo-wrapper{
     border-right: 0px;
@@ -10288,4 +10293,14 @@ h1, h2, h3, h4, h5, h6 {
   .about-section-padding{
     padding: 30px 0px !important;
   }
+  .sigma_subheader .breadcrumb{
+    display: none;
+  }
+  .header-absolute + .sigma_subheader .sigma_subheader-inner,
+.header-absolute + main > .sigma_subheader .sigma_subheader-inner{
+  padding: 170px 0 50px;
+}
+.section{
+  padding: 35px 0px !important;
+}
 }

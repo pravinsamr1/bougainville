@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /sendmail.php
+
+Sitemap: https://bougainvillechennai.com/sitemap.xml

@@ -121,7 +121,7 @@
   z-index: 10;
   text-align: center;
   padding: 0 50px;
-  max-width: 720px;
+  max-width: 1070px;
   width: 100%;
   opacity: 0;
   filter: blur(10px);
@@ -161,7 +161,7 @@
 .kr-title {
   font-family: 'Lora', serif;
   font-size: 62px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.15;
   color: #fff;
   text-transform: none;
