@@ -52,8 +52,8 @@
 #kr-hero .kr-slide:nth-child(3) .kr-bg { background-image: url('../img/bannerr2.jpg'); }
 
 /* Hero 2 — slides 3 & 4 (mid-page, shorter height) */
-#kr-hero-2 .kr-slide:nth-child(1) .kr-bg { background-image: url('../img/bannerr2.jpg'); }
-#kr-hero-2 .kr-slide:nth-child(2) .kr-bg { background-image: url('../img/bannerr1.jpg'); }
+#kr-hero-2 .kr-slide:nth-child(1) .kr-bg { background-image: url('../img/bannerr3.jpg'); }
+#kr-hero-2 .kr-slide:nth-child(2) .kr-bg { background-image: url('../img/bannerr4.jpg'); }
 #kr-hero-2 { height: 70vh; min-height: 520px; }
 
 .kr-slide.is-active .kr-bg {

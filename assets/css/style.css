@@ -4322,7 +4322,7 @@ table img {
 }
 
 .footer-widget {
-    padding-bottom: 80px;
+    padding-bottom: 40px;
 }
 .footer-widget .sigma_sm{
   margin-top: 25px;
@@ -10302,5 +10302,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 .section{
   padding: 35px 0px !important;
+}
+.section-title .title{
+  font-size: 22px !important;
 }
 }
